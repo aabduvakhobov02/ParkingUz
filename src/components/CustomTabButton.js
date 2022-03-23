@@ -1,7 +1,7 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-const CustomTabButton = ({children, onPress, style}) => {
+const CustomTabButton = ({children, onPress}) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.touchable}>
       <View style={styles.wrapper}>{children}</View>

@@ -1,12 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useNavigation} from '@react-navigation/native';
 
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import ScanScreen from '../screens/ScanScreen';
+import HomeTabScreen from '../screens/tabScreens/HomeTabScreen';
+import SettingsScreen from '../screens/signedInScreens/SettingsScreen';
+import ScanScreen from '../screens/signedInScreens/ScanScreen';
 import CustomTabButton from './CustomTabButton';
 
 const Tab = createBottomTabNavigator();
@@ -30,7 +29,7 @@ const TabBar = () => {
       }}>
       <Tab.Screen
         name={'Home'}
-        component={HomeScreen}
+        component={HomeTabScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
