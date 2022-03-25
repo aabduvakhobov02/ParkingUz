@@ -56,7 +56,7 @@ const EnterAddressScreen = ({navigation}) => {
         </View>
         <ButtonWithIcon
           style={styles.button}
-          text={'Coninue'}
+          text={'Continue'}
           icon={'arrow-forward-outline'}
           onPress={() => navigation.navigate('EnterAddress')}
         />

@@ -7,6 +7,7 @@ import {
   Image,
 } from 'react-native';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 
@@ -14,6 +15,8 @@ import backgroundImage from '../../images/coverBackground.jpg';
 import welcomeImage from '../../images/welcomeImage.png';
 
 const WelcomeScreen = ({navigation}) => {
+  const {t} = useTranslation();
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -29,7 +32,7 @@ const WelcomeScreen = ({navigation}) => {
         </View>
         <View style={styles.body}>
           <Text style={styles.title}>
-            Manage your parking lot easily and simply.
+            {t('Manage your parking lot easily and simply.')}
           </Text>
           <Text style={styles.text}>
             Conveniently track the cars that are in your parking lot
@@ -37,9 +40,9 @@ const WelcomeScreen = ({navigation}) => {
         </View>
         <ButtonWithIcon
           style={styles.button}
-          text={'Coninue'}
+          text={'Continue'}
           icon={'arrow-forward-outline'}
-          onPress={() => navigation.navigate('FillInformationForm')}
+          onPress={() => navigation.navigate('SignIn')}
         />
       </ImageBackground>
     </SafeAreaView>

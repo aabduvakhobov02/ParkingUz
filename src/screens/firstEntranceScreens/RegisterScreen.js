@@ -12,7 +12,7 @@ import InputWithLabel from '../../components/InputWithLabel';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 
-const SignInScreen = ({navigation}) => {
+const RegisterScreen = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleEyePress = () => {
@@ -26,11 +26,17 @@ const SignInScreen = ({navigation}) => {
         style={styles.backgroundImage}>
         <View style={styles.body}>
           <View>
-            <Text style={styles.title}>Sign In</Text>
-            <Text style={styles.subtitle}>
-              Access Parking.uz using your email and password.
-            </Text>
+            <Text style={styles.title}>Sign Up</Text>
+            <Text style={styles.subtitle}>Create New Parking.uz Account</Text>
           </View>
+          <InputWithLabel
+            label={'First Name'}
+            placeholder={'Enter your first name'}
+          />
+          <InputWithLabel
+            label={'Last Name'}
+            placeholder={'Enter your last name'}
+          />
           <InputWithLabel
             label={'Email'}
             placeholder={'Enter your email address'}
@@ -55,27 +61,27 @@ const SignInScreen = ({navigation}) => {
             />
           )}
           <View style={styles.textWrapper}>
-            <Text style={styles.text}>New on our platform?</Text>
+            <Text style={styles.text}>Already have an account?</Text>
             <Text
               style={[styles.text, styles.link]}
-              onPress={() => navigation.navigate('Register')}>
+              onPress={() => navigation.navigate('SignIn')}>
               {' '}
-              Create an account
+              Sign in
             </Text>
           </View>
         </View>
         <ButtonWithIcon
           style={styles.button}
-          text={'Sign in'}
+          text={'Create an account'}
           icon={'arrow-forward-outline'}
-          onPress={() => navigation.navigate('FillInformationForm')}
+          onPress={() => navigation.navigate('SetRole')}
         />
       </ImageBackground>
     </SafeAreaView>
   );
 };
 
-export default SignInScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     flexDirection: 'row',
+    marginTop: 5,
   },
   text: {
     fontWeight: '400',

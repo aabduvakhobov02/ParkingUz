@@ -6,27 +6,27 @@ import {
   ImageBackground,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import RadioButtonRN from 'radio-buttons-react-native';
+import {useTranslation} from 'react-i18next';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
+
+import {languageMenu} from '../../configs/i18nConfig';
 
 import backgroundImage from '../../images/homeBackground.jpg';
 import bigLogo from '../../../assets/icons/bigLogo.png';
 import textLogo from '../../../assets/icons/textLogo.png';
 
 const LanguageSelectionScreen = ({navigation}) => {
-  const [data, setData] = useState([
-    {
-      label: 'Uzbek',
-    },
-    {
-      label: 'Russian',
-    },
-    {
-      label: 'English',
-    },
-  ]);
+  const {i18n, t} = useTranslation();
+
+  const handleOnLanguageMenuItemSelected = item => {
+    if (i18n?.language !== item.code) {
+      i18n?.changeLanguage(item.code);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -41,17 +41,17 @@ const LanguageSelectionScreen = ({navigation}) => {
         <Image source={textLogo} style={styles.textLogo} />
       </ImageBackground>
       <View style={styles.body}>
-        <Text style={styles.title}>Select Your Language</Text>
+        <Text style={styles.title}>{t('Select Your Language')}</Text>
         <RadioButtonRN
-          data={data}
-          selectedBtn={e => console.log(e)}
+          data={languageMenu}
+          selectedBtn={item => handleOnLanguageMenuItemSelected(item)}
           activeColor="#E63946"
           textStyle={{fontSize: 16}}
-          boxStyle={{borderRadius: 16}}
+          boxStyle={{borderRadius: 16, flexDirection: 'row-reverse'}}
         />
         <ButtonWithIcon
           style={styles.button}
-          text={'Coninue'}
+          text={'Continue'}
           icon={'arrow-forward-outline'}
           onPress={() => navigation.navigate('Welcome')}
         />
