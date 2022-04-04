@@ -4,12 +4,14 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import TabBar from '../components/TabBar';
 import FirstEntranceScreens from './firstEntranceScreens/FirstEntranceScreens';
+import EndUserScreens from './endUserScreens/EndUserScreens';
 
 const Routes = () => {
   return (
     <NavigationContainer>
-      {/* <TabBar /> */}
-      <FirstEntranceScreens />
+      <TabBar />
+      {/* <FirstEntranceScreens /> */}
+      {/* <EndUserScreens /> */}
     </NavigationContainer>
   );
 };
