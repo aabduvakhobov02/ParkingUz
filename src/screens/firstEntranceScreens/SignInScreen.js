@@ -14,6 +14,8 @@ import backgroundImage from '../../images/coverBackground.jpg';
 
 const SignInScreen = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
   const handleEyePress = () => {
     setShowPassword(prev => !prev);
@@ -34,6 +36,8 @@ const SignInScreen = ({navigation}) => {
           <InputWithLabel
             label={'Email'}
             placeholder={'Enter your email address'}
+            value={email}
+            onChange={setEmail}
           />
           {!showPassword ? (
             <InputWithLabel
@@ -43,6 +47,8 @@ const SignInScreen = ({navigation}) => {
               hasIcon
               iconName={'eye-off'}
               onIconPress={handleEyePress}
+              value={password}
+              onChange={setPassword}
             />
           ) : (
             <InputWithLabel
@@ -52,6 +58,8 @@ const SignInScreen = ({navigation}) => {
               hasIcon
               iconName={'eye'}
               onIconPress={handleEyePress}
+              value={password}
+              onChange={setPassword}
             />
           )}
           <View style={styles.textWrapper}>

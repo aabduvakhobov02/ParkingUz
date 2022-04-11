@@ -1,0 +1,71 @@
+{
+  "backendApiSettings": {
+    "schema": "http",
+    "hostname": "34.234.22.81",
+    "basePath": {"v1": "/api/v1"},
+    "resources": {
+      "authSignUp": {
+        "endpoint": "/auth/sign-up",
+        "method": "POST",
+        "isPublic": true
+      },
+      "authSetRole": {
+        "endpoint": "/auth/set/role",
+        "method": "POST",
+        "isPublic": true
+      },
+      "getVehicles": {
+        "endpoint": "/parking-zones/:parkingZoneId/cars",
+        "method": "GET"
+      },
+      "createVehicle": {
+        "endpoint": "/parking-zones/:parkingZoneId/cars",
+        "method": "POST"
+      },
+      "getVehicleByNumber": {
+        "endpoint": "/parking-zones/:parkingZoneId/cars/:carNumber",
+        "method": "GET"
+      },
+      "removeVehicle": {
+        "endpoint": "/parking-zones/:parkingZoneId/cars/:carNumber",
+        "method": "DELETE"
+      },
+      "getParkingLots": {
+        "endpoint": "/parking-zones",
+        "method": "GET"
+      },
+      "createParkingLot": {
+        "endpoint": "/parking-zones",
+        "method": "POST"
+      },
+      "getParkingLotById": {
+        "endpoint": "/parking-zones/:id",
+        "method": "PUT"
+      },
+      "removeParkingLot": {
+        "endpoint": "/parking-zones/:id",
+        "method": "GET"
+      },
+      "getUsers": {
+        "endpoint": "/users",
+        "method": "GET"
+      }
+    },
+    "headers": {
+      "authentication": {
+        "key": "Authorization"
+      }
+    }
+  },
+  "firebaseSettings": {
+    "ocr-login": {
+      "apiKey": "AIzaSyDZdGs4XOqfHDZUIjH4qsieTRJ_ljxs8X8",
+      "authDomain": "ocr-login.firebaseapp.com",
+      "projectId": "ocr-login",
+      "storageBucket": "ocr-login.appspot.com",
+      "messagingSenderId": "119171717820",
+      "appId": "1:119171717820:web:063114023a64f069b6ceb9",
+      "measurementId": "G-5SFK7B63QS"
+    }
+  }
+}

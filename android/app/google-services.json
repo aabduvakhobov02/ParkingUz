@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "119171717820",
+    "project_id": "ocr-login",
+    "storage_bucket": "ocr-login.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119171717820:android:1aab25579f63fd30b6ceb9",
+        "android_client_info": {
+          "package_name": "uz.parkingUZ.ParkingUz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119171717820-87ncm3j58pmiscibcubb6ebvik5tndcf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ5Z9mnYKom81rJWgPyhtOStJy9i9ED7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119171717820-87ncm3j58pmiscibcubb6ebvik5tndcf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

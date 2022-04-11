@@ -10,14 +10,40 @@ import React, {useState} from 'react';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
 
+import {signUp} from '../../services/authService';
+import {useStatusContext} from '../../hooks/useStatusContext';
+import {FIREBASE_ERROR_MESSAGES} from '../../utilities/constants';
+
 import backgroundImage from '../../images/coverBackground.jpg';
 
 const RegisterScreen = ({navigation}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const {onErrorStatus} = useStatusContext();
 
   const handleEyePress = () => {
     setShowPassword(prev => !prev);
   };
+
+  const handleSignUp = async () => {
+    setIsLoading(true);
+
+    try {
+      await signUp({email, password});
+      navigation.navigate('FillInformationForm');
+    } catch (err) {
+      onErrorStatus(FIREBASE_ERROR_MESSAGES[err.code] ?? err.message);
+    }
+
+    setIsLoading(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -32,14 +58,20 @@ const RegisterScreen = ({navigation}) => {
           <InputWithLabel
             label={'First Name'}
             placeholder={'Enter your first name'}
+            value={firstName}
+            onChange={setFirstName}
           />
           <InputWithLabel
             label={'Last Name'}
             placeholder={'Enter your last name'}
+            value={lastName}
+            onChange={setLastName}
           />
           <InputWithLabel
             label={'Email'}
             placeholder={'Enter your email address'}
+            value={email}
+            onChange={setEmail}
           />
           {!showPassword ? (
             <InputWithLabel
@@ -49,6 +81,8 @@ const RegisterScreen = ({navigation}) => {
               hasIcon
               iconName={'eye-off'}
               onIconPress={handleEyePress}
+              value={password}
+              onChange={setPassword}
             />
           ) : (
             <InputWithLabel
@@ -58,6 +92,8 @@ const RegisterScreen = ({navigation}) => {
               hasIcon
               iconName={'eye'}
               onIconPress={handleEyePress}
+              value={password}
+              onChange={setPassword}
             />
           )}
           <View style={styles.textWrapper}>
@@ -74,7 +110,7 @@ const RegisterScreen = ({navigation}) => {
           style={styles.button}
           text={'Create an account'}
           icon={'arrow-forward-outline'}
-          onPress={() => navigation.navigate('SetRole')}
+          onPress={handleSignUp}
         />
       </ImageBackground>
     </SafeAreaView>

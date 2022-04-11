@@ -12,6 +12,7 @@ import FillInformationFormScreen from './FillInformationFormScreen';
 import EnterAddressScreen from './EnterAddressScreen';
 import RegisterScreen from './RegisterScreen';
 import SetRoleScreen from './SetRoleScreen';
+import EndUserScreens from '../endUserScreens/EndUserScreens';
 
 const Stack = createStackNavigator();
 
@@ -28,14 +29,15 @@ const FirstEntranceScreens = () => {
         component={LanguageSelectionScreen}
       />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="SetRole" component={SetRoleScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="SetRole" component={SetRoleScreen} />
       <Stack.Screen
         name="FillInformationForm"
         component={FillInformationFormScreen}
       />
       <Stack.Screen name="EnterAddress" component={EnterAddressScreen} />
+      <Stack.Screen name="EndUserScreens" component={EndUserScreens} />
     </Stack.Navigator>
   );
 };

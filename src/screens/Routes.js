@@ -6,12 +6,14 @@ import TabBar from '../components/TabBar';
 import FirstEntranceScreens from './firstEntranceScreens/FirstEntranceScreens';
 import EndUserScreens from './endUserScreens/EndUserScreens';
 
+import {useAuthContext} from '../hooks/useAuthContext';
+import {useParkingContext} from '../hooks/useParkingContext';
+
 const Routes = () => {
+  const {user, isUserLoading} = useAuthContext();
   return (
     <NavigationContainer>
-      <TabBar />
-      {/* <FirstEntranceScreens /> */}
-      {/* <EndUserScreens /> */}
+      {!user ? <FirstEntranceScreens /> : <TabBar />}
     </NavigationContainer>
   );
 };

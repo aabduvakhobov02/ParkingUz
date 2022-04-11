@@ -13,11 +13,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
+import {useAuthContext} from '../../hooks/useAuthContext';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 import sample from '../../images/sampleImage.png';
 
 const SetRoleScreen = ({navigation}) => {
+  const {setUserRole} = useAuthContext();
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -43,7 +46,7 @@ const SetRoleScreen = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => navigation.navigate('FillInformationForm')}>
+                onPress={() => navigation.navigate('SignIn')}>
                 <Text style={styles.text}>Manage your parking lot</Text>
                 <Image source={sample} style={styles.image} />
                 <Ionicons

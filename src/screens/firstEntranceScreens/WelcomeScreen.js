@@ -42,7 +42,7 @@ const WelcomeScreen = ({navigation}) => {
           style={styles.button}
           text={'Continue'}
           icon={'arrow-forward-outline'}
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => navigation.navigate('SetRole')}
         />
       </ImageBackground>
     </SafeAreaView>

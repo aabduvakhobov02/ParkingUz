@@ -10,6 +10,7 @@ const InputWithLabel = ({
   hasIcon,
   iconName,
   onIconPress,
+  value,
 }) => {
   return (
     <View style={styles.container}>
@@ -19,7 +20,8 @@ const InputWithLabel = ({
           style={hasIcon ? styles.inputWithIcon : styles.input}
           placeholder={placeholder}
           placeholderTextColor="#9297B7"
-          onChange={onChange}
+          value={value}
+          onChangeText={onChange}
           secureTextEntry={isSecure}
         />
         {hasIcon && (
