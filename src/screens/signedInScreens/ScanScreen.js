@@ -30,9 +30,13 @@ const ScanScreen = () => {
       if (image) {
         const result = await TextRecognition.recognize(image.assets[0].uri);
 
-        if (result.match(/[0-9]{2}[ A-Za-z]{1,3}[0-9]{3}[ A-Za-z]{1,3}/)) {
-          setText(result);
-        }
+        result.map(item => {
+          if (
+            item.match(/([0-9]{2})([ A-Za-z]{1,3})([0-9]{3})([ A-Za-z]{1,3})/)
+          ) {
+            setText(item);
+          }
+        });
       }
     })();
   }, [image]);

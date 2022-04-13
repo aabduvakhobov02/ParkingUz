@@ -9,3 +9,12 @@ export const authSignUp = async ({firstName, lastName, email, password}) => {
     body,
   });
 };
+
+export const authSetRole = async ({userId, role}) => {
+  const body = {userId, role};
+
+  return await backendHttpRequest({
+    resourceObject: config.backendApiSettings.resources.authSetRole,
+    body,
+  });
+};

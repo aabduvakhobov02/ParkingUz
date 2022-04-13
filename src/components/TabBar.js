@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import HomeTabScreen from '../screens/tabScreens/HomeTabScreen';
 import SettingsScreen from '../screens/signedInScreens/SettingsScreen';
@@ -11,6 +12,8 @@ import CustomTabButton from './CustomTabButton';
 const Tab = createBottomTabNavigator();
 
 const TabBar = () => {
+  const parkingLotId = AsyncStorage.getItem('ParkingId');
+
   return (
     <Tab.Navigator
       tabBarOptions={{

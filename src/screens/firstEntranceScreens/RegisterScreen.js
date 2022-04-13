@@ -10,7 +10,7 @@ import React, {useState} from 'react';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
 
-import {signUp} from '../../services/authService';
+import {signUp, setRole} from '../../services/authService';
 import {useStatusContext} from '../../hooks/useStatusContext';
 import {FIREBASE_ERROR_MESSAGES} from '../../utilities/constants';
 
@@ -36,6 +36,12 @@ const RegisterScreen = ({navigation}) => {
 
     try {
       await signUp({email, password});
+      // .then(
+      //   async result =>
+      //     await setRole({userId: result.id, role: 'OCR:ADMIN'}).catch(e =>
+      //       console.log(e),
+      //     ),
+      // );
       navigation.navigate('FillInformationForm');
     } catch (err) {
       onErrorStatus(FIREBASE_ERROR_MESSAGES[err.code] ?? err.message);

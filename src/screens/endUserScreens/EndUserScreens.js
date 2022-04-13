@@ -8,11 +8,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import MapView from 'react-native-maps';
-import Modal from 'react-native-modal';
-import Dropdown from 'react-native-modal-dropdown';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as theme from '../../utilities/theme';
+import {useNavigation} from '@react-navigation/native';
+
 import MapScreen from './MapScreen';
 
 const {height, width} = Dimensions.get('screen');

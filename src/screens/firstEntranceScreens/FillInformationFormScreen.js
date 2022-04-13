@@ -10,9 +10,22 @@ import React from 'react';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
 
+import {useParkingContext} from '../../hooks/useParkingContext';
+
 import backgroundImage from '../../images/coverBackground.jpg';
 
 const FillInformationFormScreen = ({navigation}) => {
+  const {
+    name,
+    size,
+    price,
+    description,
+    setName,
+    setSize,
+    setPrice,
+    setDescription,
+  } = useParkingContext();
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -24,18 +37,26 @@ const FillInformationFormScreen = ({navigation}) => {
           <InputWithLabel
             label={'Enter your Company name'}
             placeholder={'Company name'}
+            value={name}
+            onChange={setName}
           />
           <InputWithLabel
             label={'Enter parking capacity of the parking lot'}
             placeholder={'Number of cars'}
+            value={size}
+            onChange={setSize}
           />
           <InputWithLabel
             label={'Enter per hour parking price'}
             placeholder={'Price per hour'}
+            value={price}
+            onChange={setPrice}
           />
           <InputWithLabel
             label={'Enter woking hours'}
             placeholder={'Working hours'}
+            value={description}
+            onChange={setDescription}
           />
         </View>
         <ButtonWithIcon

@@ -10,16 +10,20 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import ButtonWithIcon from '../../components/ButtonWithIcon';
-import InputWithLabel from '../../components/InputWithLabel';
-import {useAuthContext} from '../../hooks/useAuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 import sample from '../../images/sampleImage.png';
 
 const SetRoleScreen = ({navigation}) => {
-  const {setUserRole} = useAuthContext();
+  const storeData = async () => {
+    try {
+      navigation.push('EndUserScreens');
+      await AsyncStorage.setItem('isEndUser', 'true');
+    } catch (e) {
+      // saving error
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,7 +38,11 @@ const SetRoleScreen = ({navigation}) => {
               Let's identify in what extent you want to use the Parking.uz.
             </Text> */}
             <View style={styles.optionWrapper}>
-              <TouchableOpacity style={styles.option}>
+              <TouchableOpacity
+                style={styles.option}
+                onPress={() => {
+                  storeData();
+                }}>
                 <Text style={styles.text}>Find parking locations</Text>
                 <Image source={sample} />
                 <Ionicons

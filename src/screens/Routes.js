@@ -10,10 +10,18 @@ import {useAuthContext} from '../hooks/useAuthContext';
 import {useParkingContext} from '../hooks/useParkingContext';
 
 const Routes = () => {
-  const {user, isUserLoading} = useAuthContext();
+  const {user, isUserLoading, isEndUser} = useAuthContext();
+  const {isCalculated} = useParkingContext();
+
   return (
     <NavigationContainer>
-      {!user ? <FirstEntranceScreens /> : <TabBar />}
+      {isEndUser ? (
+        <EndUserScreens />
+      ) : !user || !isCalculated ? (
+        <FirstEntranceScreens />
+      ) : (
+        <TabBar />
+      )}
     </NavigationContainer>
   );
 };

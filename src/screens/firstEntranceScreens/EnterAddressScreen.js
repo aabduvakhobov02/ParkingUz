@@ -7,19 +7,66 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import MapView, {Marker} from 'react-native-maps';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
-import InputWithLabel from '../../components/InputWithLabel';
+
+import {useParkingContext} from '../../hooks/useParkingContext';
+import {useBeManualFetcher} from '../../hooks/useBeManualFetcher';
+import {createParkingLot} from '../../repositories/parkingLotRepository';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 import MapPin from '../../../assets/icons/map-pin.png';
 import InputWithIcon from '../../components/InputWithIcon';
 
-const EnterAddressScreen = ({navigation}) => {
-  const [location, setLocation] = useState({
-    latitude: 41.305852,
-    longitude: 69.280962,
-  });
+const EnterAddressScreen = () => {
+  const {
+    price,
+    description,
+    name,
+    size,
+    address,
+    location,
+    setLocation,
+    setIsCalculated,
+  } = useParkingContext();
+  const [onFetch] = useBeManualFetcher();
+
+  const onSubmit = async () => {
+    const body = {
+      size: size,
+      name: name,
+      description: description,
+      serviceCost: {
+        hour: 1,
+        price: {
+          amount: price,
+          currency: 'UZ',
+        },
+      },
+      address: {
+        city: address?.city,
+        district: address?.district,
+        street: address?.street,
+        point: {
+          longitude: location?.longitude,
+          latitude: location?.latitude,
+        },
+      },
+    };
+
+    await onFetch({
+      action: async () => await createParkingLot(body),
+      onLoad: async result => {
+        try {
+          await AsyncStorage.setItem('ParkingId', `${result?.id}`);
+          setIsCalculated(prev => true);
+        } catch (error) {}
+      },
+      successMessage: 'Parking Lot created succesfully',
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -38,8 +85,7 @@ const EnterAddressScreen = ({navigation}) => {
               draggable={true}
               style={styles.map}
               initialRegion={{
-                latitude: 41.305852,
-                longitude: 69.280962,
+                ...location,
                 latitudeDelta: 0.0022,
                 longitudeDelta: 0.0191,
               }}
@@ -58,7 +104,7 @@ const EnterAddressScreen = ({navigation}) => {
           style={styles.button}
           text={'Continue'}
           icon={'arrow-forward-outline'}
-          onPress={() => navigation.navigate('EnterAddress')}
+          onPress={onSubmit}
         />
       </ImageBackground>
     </SafeAreaView>

@@ -40,11 +40,11 @@
       },
       "getParkingLotById": {
         "endpoint": "/parking-zones/:id",
-        "method": "PUT"
+        "method": "GET"
       },
       "removeParkingLot": {
         "endpoint": "/parking-zones/:id",
-        "method": "GET"
+        "method": "DELETE"
       },
       "getUsers": {
         "endpoint": "/users",

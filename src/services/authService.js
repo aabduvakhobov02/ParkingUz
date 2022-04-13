@@ -7,7 +7,7 @@ import {
   auth,
 } from '../repositories/firebaseRepository';
 
-import {authSignUp} from '../repositories/authRepository';
+import {authSignUp, authSetRole} from '../repositories/authRepository';
 
 export const signUp = async ({email, password, firstName, lastName}) => {
   const {token} = await authSignUp({
@@ -22,6 +22,9 @@ export const signUp = async ({email, password, firstName, lastName}) => {
   return userCreds;
 };
 
+export const setRole = async ({userId, role}) =>
+  await authSetRole({userId, role});
+
 export const signInWithEmailAndPassword = async ({email, password}) => {
   await logInWithEmailAndPassword({email, password});
 };
@@ -34,7 +37,7 @@ export const onIdTokenChanged = callback => onTokenChanged(callback);
 
 export const getUserRoles = async () => {
   const parsedToken = await getParsedIdToken();
-  console.log(parsedToken);
+  return parsedToken;
 };
 
 export const firebaseAuth = auth;

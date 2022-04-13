@@ -9,6 +9,7 @@ import {
 import React, {useState, useEffect} from 'react';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {useTranslation} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 
@@ -45,6 +46,7 @@ const LanguageSelectionScreen = ({navigation}) => {
         <RadioButtonRN
           data={languageMenu}
           selectedBtn={item => handleOnLanguageMenuItemSelected(item)}
+          initial={1}
           activeColor="#E63946"
           textStyle={{fontSize: 16}}
           boxStyle={{borderRadius: 16, flexDirection: 'row-reverse'}}

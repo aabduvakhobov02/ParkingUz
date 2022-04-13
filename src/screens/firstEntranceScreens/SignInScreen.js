@@ -5,10 +5,14 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
+
+import {signInWithEmailAndPassword} from '../../services/authService';
+import {useStatusContext} from '../../hooks/useStatusContext';
+import {useAuthContext} from '../../hooks/useAuthContext';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 
@@ -16,10 +20,27 @@ const SignInScreen = ({navigation}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const {onErrorStatus} = useStatusContext();
+  const {user} = useAuthContext();
 
   const handleEyePress = () => {
     setShowPassword(prev => !prev);
   };
+
+  const handleSignIn = async () => {
+    try {
+      await signInWithEmailAndPassword({
+        email,
+        password,
+      });
+      getParkingId();
+    } catch (err) {
+      onErrorStatus({
+        title: 'Error on Sign In.',
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -76,7 +97,7 @@ const SignInScreen = ({navigation}) => {
           style={styles.button}
           text={'Sign in'}
           icon={'arrow-forward-outline'}
-          onPress={() => navigation.navigate('FillInformationForm')}
+          onPress={handleSignIn}
         />
       </ImageBackground>
     </SafeAreaView>

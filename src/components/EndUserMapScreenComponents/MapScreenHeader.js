@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const MapScreenHeader = ({location}) => {
+const MapScreenHeader = ({location, headerModal, setHeaderModal}) => {
   return (
     <View style={styles.header}>
       <View style={styles.locationWrapper}>
@@ -10,7 +10,7 @@ const MapScreenHeader = ({location}) => {
         <Text style={styles.headerLocation}>Tashkent, Uzbekistan</Text>
       </View>
       <View style={styles.menuWrapper}>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => setHeaderModal(true)}>
           <Ionicons name="menu" size={24} color={'#7D818A'} />
         </TouchableWithoutFeedback>
       </View>

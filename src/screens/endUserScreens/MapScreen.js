@@ -9,14 +9,15 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import Dropdown from 'react-native-modal-dropdown';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as theme from '../../utilities/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+
 import MapScreenHeader from '../../components/EndUserMapScreenComponents/MapScreenHeader';
 import MapScreenBody from '../../components/EndUserMapScreenComponents/MapScreenBody';
-import MapScreenParkingCards from '../../components/EndUserMapScreenComponents/MapScreenParkingCards';
-import MapScreenParkingCard from '../../components/EndUserMapScreenComponents/MapScreenParkingCard';
 import MapScreenModal from '../../components/EndUserMapScreenComponents/MapScreenModal';
+
+import * as theme from '../../utilities/theme';
 
 const {height, width} = Dimensions.get('screen');
 const parkings = [
@@ -71,18 +72,28 @@ const MapScreen = () => {
   const [hours, setHours] = useState({});
   const [isActive, setIsActive] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
-  // const availableHours = [1, 2, 3, 4, 5, 6];
+  const [headerModal, setHeaderModal] = useState(false);
+  const navigation = useNavigation();
 
-  // const handleHours = (id, value) => {
-  //   const copiedHours = {...hours};
-  //   copiedHours[id] = value;
-
-  //   setHours(copiedHours);
-  // };
+  const logOut = () => {
+    try {
+      setHeaderModal(false);
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'LanguageSelection'}],
+      });
+      AsyncStorage.setItem('isEndUser', 'false');
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <MapScreenHeader />
+      <MapScreenHeader
+        headerModal={headerModal}
+        setHeaderModal={setHeaderModal}
+      />
       <MapScreenBody
         parkings={parkings}
         isActive={isActive}
@@ -162,6 +173,30 @@ const MapScreen = () => {
           activeModal={activeModal}
           setActiveModal={setActiveModal}
         />
+      )}
+      {headerModal && (
+        <Modal
+          isVisible
+          useNativeDriver
+          style={styles.modalContainer}
+          backdropColor={theme.COLORS.overlay}
+          onBackButtonPress={() => setHeaderModal(false)}
+          onBackdropPress={() => setHeaderModal(false)}
+          onSwipeComplete={() => setHeaderModal(false)}>
+          <View style={styles.modal}>
+            <View style={styles.modalHeader}></View>
+            <View style={styles.modalBody}>
+              <TouchableOpacity style={styles.listItem} onPress={logOut}>
+                <Ionicons
+                  name="log-out-outline"
+                  size={theme.SIZES.icon * 1.75}
+                  color={theme.COLORS.black}
+                />
+                <Text style={styles.listItemText}>Log out</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       )}
     </View>
   );
@@ -276,5 +311,34 @@ const styles = StyleSheet.create({
   parkingIcon: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+
+  modalContainer: {
+    margin: 0,
+    justifyContent: 'flex-start',
+  },
+  modal: {
+    flexDirection: 'column',
+    height: height,
+    width: width * 0.8,
+
+    backgroundColor: theme.COLORS.white,
+  },
+  modalHeader: {
+    flex: 1,
+    backgroundColor: '#C1BEC0',
+  },
+  modalBody: {
+    flex: 3,
+    padding: theme.SIZES.base * 2,
+  },
+  listItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  listItemText: {
+    paddingLeft: 10,
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
