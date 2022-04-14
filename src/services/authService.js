@@ -9,12 +9,13 @@ import {
 
 import {authSignUp, authSetRole} from '../repositories/authRepository';
 
-export const signUp = async ({email, password, firstName, lastName}) => {
+export const signUp = async ({email, password, firstName, lastName, role}) => {
   const {token} = await authSignUp({
     firstName,
     lastName,
     email,
     password,
+    role,
   });
 
   const userCreds = await customTokenSignIn(token);

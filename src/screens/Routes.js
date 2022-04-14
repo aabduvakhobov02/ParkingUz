@@ -8,6 +8,7 @@ import EndUserScreens from './endUserScreens/EndUserScreens';
 
 import {useAuthContext} from '../hooks/useAuthContext';
 import {useParkingContext} from '../hooks/useParkingContext';
+import MainScreens from './signedInScreens/MainScreens';
 
 const Routes = () => {
   const {user, isUserLoading, isEndUser} = useAuthContext();
@@ -20,7 +21,7 @@ const Routes = () => {
       ) : !user || !isCalculated ? (
         <FirstEntranceScreens />
       ) : (
-        <TabBar />
+        <MainScreens />
       )}
     </NavigationContainer>
   );

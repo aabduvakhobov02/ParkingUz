@@ -1,9 +1,3 @@
-import merge from 'lodash/merge';
-import {
-  getCurrentEnvironment,
-  ENVIRONMENTS_ENUMS,
-} from '../utilities/environmentUtils';
-
 const baseConfig = require('./repositoryConfig.json');
 
 export const config = {...baseConfig};

@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import HomeTabScreen from '../screens/tabScreens/HomeTabScreen';
+import HomeScreen from '../screens/signedInScreens/HomeScreen';
 import SettingsScreen from '../screens/signedInScreens/SettingsScreen';
 import ScanScreen from '../screens/signedInScreens/ScanScreen';
 import CustomTabButton from './CustomTabButton';
@@ -32,7 +32,7 @@ const TabBar = () => {
       }}>
       <Tab.Screen
         name={'Home'}
-        component={HomeTabScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>

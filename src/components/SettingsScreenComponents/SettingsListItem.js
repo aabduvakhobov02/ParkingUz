@@ -1,4 +1,10 @@
-import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+} from 'react-native';
 import React from 'react';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -7,18 +13,21 @@ import {globalStyles} from '../../styles/global';
 
 const SettingsListItem = ({item, pressHandler}) => {
   return (
-    <TouchableHighlight
-      onPress={pressHandler}
-      key={item.id}
-      style={styles.container}>
-      <View style={[styles.item, styles.shadow]}>
-        <View style={styles.itemName}>
-          <Ionicons name={`${item.iconName}`} size={24} color={'#1D3557'} />
-          <Text style={[globalStyles.text, styles.text]}>{item.text}</Text>
+    <View style={styles.container} key={item.id}>
+      <TouchableNativeFeedback onPress={() => pressHandler(item.id)}>
+        <View style={[styles.item, styles.shadow]}>
+          <View style={styles.itemName}>
+            <Ionicons name={`${item.iconName}`} size={24} color={'#1D3557'} />
+            <Text style={[globalStyles.text, styles.text]}>{item.text}</Text>
+          </View>
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={'#e32f45'}
+          />
         </View>
-        <Ionicons name="chevron-forward-outline" size={24} color={'#e32f45'} />
-      </View>
-    </TouchableHighlight>
+      </TouchableNativeFeedback>
+    </View>
   );
 };
 

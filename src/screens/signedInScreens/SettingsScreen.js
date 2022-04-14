@@ -1,27 +1,14 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  Pressable,
-  FlatList,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, View, FlatList, SafeAreaView} from 'react-native';
 import React, {useState} from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import StatsCard from '../../components/StatsCard';
-import InputWithIcon from '../../components/InputWithIcon';
-
-import Background from '../../images/homeBackground.jpg';
-import CarItem from '../../components/CarItem';
-import CarListScreenHeader from '../../components/CarListScreenComponents/CarListScreenHeader';
 import SettingsScreenHeader from '../../components/SettingsScreenComponents/SettingsScreenHeader';
 import SettingsListItem from '../../components/SettingsScreenComponents/SettingsListItem';
 
-const CarListScreen = ({navigation}) => {
-  const [carList, setCarList] = useState([
+import {signOut} from '../../services/authService';
+import {useStatusContext} from '../../hooks/useStatusContext';
+
+const SettingsScreen = ({navigation}) => {
+  const [list, setList] = useState([
     {
       id: 1,
       text: 'Edit Parking Details',
@@ -33,15 +20,30 @@ const CarListScreen = ({navigation}) => {
       iconName: 'log-out-outline',
     },
   ]);
-  const pressHandler = () => {
-    console.log('Clikced');
+  const {onErrorStatus} = useStatusContext();
+
+  const pressHandler = async id => {
+    if (id === 1) {
+      navigation.navigate('UpdateParkingDetailsScreen');
+      return;
+    }
+
+    if (id === 2) {
+      try {
+        await signOut();
+      } catch (error) {
+        onErrorStatus(error);
+      }
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={carList}
-        renderItem={({item}) => <SettingsListItem item={item} />}
+        data={list}
+        renderItem={({item}) => (
+          <SettingsListItem item={item} pressHandler={pressHandler} />
+        )}
         style={{marginBottom: 100}}
         ListHeaderComponent={
           <>
@@ -54,7 +56,7 @@ const CarListScreen = ({navigation}) => {
   );
 };
 
-export default CarListScreen;
+export default SettingsScreen;
 
 const styles = StyleSheet.create({
   container: {

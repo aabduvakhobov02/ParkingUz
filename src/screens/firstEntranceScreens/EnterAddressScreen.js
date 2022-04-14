@@ -60,6 +60,7 @@ const EnterAddressScreen = () => {
       onLoad: async result => {
         try {
           await AsyncStorage.setItem('ParkingId', `${result?.id}`);
+          await AsyncStorage.setItem('IsCalculated', `true`);
           setIsCalculated(prev => true);
         } catch (error) {}
       },

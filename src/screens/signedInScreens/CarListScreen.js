@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 2,
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
   header: {
     marginTop: 15,

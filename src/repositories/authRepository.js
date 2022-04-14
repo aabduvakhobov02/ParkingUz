@@ -1,8 +1,14 @@
 import {config} from '../configs/repositoryConfig';
 import backendHttpRequest from './backendHttpRequest';
 
-export const authSignUp = async ({firstName, lastName, email, password}) => {
-  const body = {firstName, lastName, email, password};
+export const authSignUp = async ({
+  firstName,
+  lastName,
+  email,
+  password,
+  role,
+}) => {
+  const body = {firstName, lastName, email, password, role};
 
   return await backendHttpRequest({
     resourceObject: config.backendApiSettings.resources.authSignUp,

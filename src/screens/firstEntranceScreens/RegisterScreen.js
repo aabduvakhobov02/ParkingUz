@@ -32,17 +32,14 @@ const RegisterScreen = ({navigation}) => {
   };
 
   const handleSignUp = async () => {
+    const role = 'OCR:ADMIN';
+
     setIsLoading(true);
 
     try {
-      await signUp({email, password});
-      // .then(
-      //   async result =>
-      //     await setRole({userId: result.id, role: 'OCR:ADMIN'}).catch(e =>
-      //       console.log(e),
-      //     ),
-      // );
-      navigation.navigate('FillInformationForm');
+      await signUp({email, password, firstName, lastName, role}).then(() =>
+        navigation.navigate('FillInformationForm'),
+      );
     } catch (err) {
       onErrorStatus(FIREBASE_ERROR_MESSAGES[err.code] ?? err.message);
     }

@@ -82,7 +82,7 @@ const MapScreen = () => {
         index: 0,
         routes: [{name: 'LanguageSelection'}],
       });
-      AsyncStorage.setItem('isEndUser', 'false');
+      AsyncStorage.removeItem('isEndUser');
     } catch (e) {
       console.log(e);
     }

@@ -19,7 +19,19 @@ const ParkingContextProvider = ({children}) => {
     latitude: 41.305852,
     longitude: 69.280962,
   });
-  const [isCalculated, setIsCalculated] = useState();
+  const [isCalculated, setIsCalculated] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      await AsyncStorage.getItem('IsCalculated').then(value => {
+        if (value === 'true') {
+          setIsCalculated(true);
+          return;
+        }
+        setIsCalculated(false);
+      });
+    } catch (error) {}
+  };
 
   const getParkingId = async () => {
     try {
@@ -29,27 +41,12 @@ const ParkingContextProvider = ({children}) => {
     } catch (error) {}
   };
 
-  const fetchData = useCallback(async () => {
-    await onFetch({
-      action: async () => await getParkingLotById(parkingId),
-      onLoad: result => {
-        if (result) {
-          setIsCalculated(true);
-        } else {
-          setIsCalculated(false);
-        }
-      },
-    });
-  }, [parkingId]);
-
   useEffect(() => {
-    (async () => {
-      await getParkingId();
-      await fetchData();
-    })();
+    fetchData();
+    getParkingId();
   }, []);
 
-  console.log(parkingId);
+  console.log(isCalculated, parkingId);
 
   return (
     <ParkingContext.Provider
