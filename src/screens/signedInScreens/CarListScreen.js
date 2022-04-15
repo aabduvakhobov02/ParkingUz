@@ -23,9 +23,6 @@ import {getCars} from '../../services/vehicleService';
 
 const CarListScreen = ({navigation}) => {
   const {parkingId, carList, setCarList} = useParkingContext();
-  const pressHandler = () => {
-    console.log('Clikced');
-  };
 
   const fetchCars = useCallback(
     async () => await getCars(parkingId),
