@@ -33,11 +33,11 @@ const SignInScreen = ({navigation}) => {
         email,
         password,
       });
-      getParkingId();
     } catch (err) {
       onErrorStatus({
         title: 'Error on Sign In.',
       });
+      console.log(err);
     }
   };
 

@@ -42,6 +42,7 @@ const RegisterScreen = ({navigation}) => {
       );
     } catch (err) {
       onErrorStatus(FIREBASE_ERROR_MESSAGES[err.code] ?? err.message);
+      
     }
 
     setIsLoading(false);

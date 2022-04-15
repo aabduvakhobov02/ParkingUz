@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import StatsCard from '../../components/StatsCard';
@@ -17,76 +17,42 @@ import InputWithIcon from '../../components/InputWithIcon';
 import Background from '../../images/homeBackground.jpg';
 import CarItem from '../../components/CarItem';
 import CarListScreenHeader from '../../components/CarListScreenComponents/CarListScreenHeader';
+import Fetcher from '../../components/FetcherComponent';
+import {useParkingContext} from '../../hooks/useParkingContext';
+import {getCars} from '../../services/vehicleService';
 
 const CarListScreen = ({navigation}) => {
-  const [carList, setCarList] = useState([
-    {
-      id: 1,
-      number: '01 O 435 MB',
-      createdAt: '1647992225',
-    },
-    {
-      id: 2,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-    {
-      id: 3,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-    {
-      id: 4,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-    {
-      id: 5,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-    {
-      id: 6,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-
-    {
-      id: 7,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-    {
-      id: 8,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-    {
-      id: 9,
-      number: '01 B 989 XA',
-      createdAt: '1647992444',
-    },
-  ]);
+  const {parkingId, carList, setCarList} = useParkingContext();
   const pressHandler = () => {
     console.log('Clikced');
   };
 
+  const fetchCars = useCallback(
+    async () => await getCars(parkingId),
+    [parkingId],
+  );
+
+  const handleOnLoadFetchedCars = useCallback(result => {
+    setCarList(result);
+  }, []);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={carList}
-        renderItem={({item}) => <CarItem carInfo={item} />}
-        style={{marginBottom: 100}}
-        ListHeaderComponent={
-          <>
-            <CarListScreenHeader navigation={navigation} />
-            <View style={styles.body}>
-              <Text style={styles.header}>List of cars in the parking</Text>
-            </View>
-          </>
-        }
-      />
-    </SafeAreaView>
+    <Fetcher action={fetchCars} onLoad={handleOnLoadFetchedCars}>
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={carList}
+          renderItem={({item}) => <CarItem carInfo={item} />}
+          ListHeaderComponent={
+            <>
+              <CarListScreenHeader navigation={navigation} />
+              <View style={styles.body}>
+                <Text style={styles.header}>List of cars in the parking</Text>
+              </View>
+            </>
+          }
+        />
+      </SafeAreaView>
+    </Fetcher>
   );
 };
 
@@ -97,6 +63,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     position: 'relative',
+    paddingBottom: 20,
   },
   body: {
     flex: 2,

@@ -12,9 +12,11 @@ const CarItem = ({carInfo, pressHandler}) => {
       key={carInfo.id}
       style={styles.container}>
       <View style={[styles.item, styles.shadow]}>
-        <Text style={[globalStyles.text, styles.text]}>{carInfo.number}</Text>
+        <Text style={[globalStyles.text, styles.text]}>
+          {carInfo.carNumber}
+        </Text>
         <Text style={globalStyles.text}>
-          {unixTimeConvertor(carInfo.createdAt)}
+          {unixTimeConvertor(carInfo.createAt)}
         </Text>
       </View>
     </TouchableHighlight>

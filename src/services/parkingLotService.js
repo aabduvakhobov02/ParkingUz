@@ -6,8 +6,8 @@ import {
 
 const getAllParkingLots = async () => await getParkingLots();
 
-const getParkingLotById = async id => await getParkingLotById(id);
+const getParkingById = async id => await getParkingLotById(id);
 
-const createParkingLot = async body => await createParkingLot(body);
+const createParking = async body => await createParkingLot(body);
 
-export {getAllParkingLots, getParkingLotById, createParkingLot};
+export {getAllParkingLots, getParkingById, createParking};

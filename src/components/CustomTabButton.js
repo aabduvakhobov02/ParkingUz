@@ -1,11 +1,39 @@
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+} from 'react-native';
 import React from 'react';
+import {launchCamera} from 'react-native-image-picker';
+
+import {useScanScreenContext} from '../hooks/useScanScreenContext';
 
 const CustomTabButton = ({children, onPress}) => {
+  const {setImage} = useScanScreenContext();
+
+  const openCamera = async () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    await launchCamera(options, res => {
+      setImage(res);
+    });
+  };
+
   return (
-    <TouchableOpacity onPress={onPress} style={styles.touchable}>
-      <View style={styles.wrapper}>{children}</View>
-    </TouchableOpacity>
+    <View style={styles.touchable}>
+      <TouchableNativeFeedback
+        onPress={() => {
+          onPress();
+          openCamera();
+        }}>
+        <View style={styles.wrapper}>{children}</View>
+      </TouchableNativeFeedback>
+    </View>
   );
 };
 

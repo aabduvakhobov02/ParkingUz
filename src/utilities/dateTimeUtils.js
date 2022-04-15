@@ -7,3 +7,10 @@ export const unixTimeConvertor = (
 ) => {
   return moment.unix(unixTime).format(timeFormat);
 };
+
+export const getCurrentTimeDifferenceInHours = (
+  time,
+  timeFormat = TIME_FORMATS.HOUR,
+) => {
+  return moment().diff(time, timeFormat);
+};

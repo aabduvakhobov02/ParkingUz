@@ -2,6 +2,13 @@ export const BE_ERROR_MESSAGES = {
   1000: 'Something went wrong',
 };
 
+export const FETCH_STATE = {
+  IDLE: 'idle',
+  LOADING: 'loading',
+  ERROR: 'error',
+  COMPLETE: 'complete',
+};
+
 export const FIREBASE_ERROR_MESSAGES = {
   'auth/network-request-failed':
     'It looks like you are not online, please connect to internet',
@@ -11,5 +18,7 @@ export const FIREBASE_ERROR_MESSAGES = {
 };
 
 export const TIME_FORMATS = {
-  TIME_REGISTERED: 'LT',
+  TIME_REGISTERED: 'hh:mm',
+  MINUTE: 'mm',
+  HOUR: 'h',
 };

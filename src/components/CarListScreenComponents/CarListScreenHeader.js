@@ -5,9 +5,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import StatsCard from '../StatsCard';
 import InputWithIcon from '../InputWithIcon';
 
+import {useParkingContext} from '../../hooks/useParkingContext';
+
 import Background from '../../images/homeBackground.jpg';
 
 const CarListScreenHeader = ({navigation}) => {
+  const {size, carList} = useParkingContext();
+
   return (
     <ImageBackground
       source={Background}
@@ -31,7 +35,7 @@ const CarListScreenHeader = ({navigation}) => {
         <StatsCard
           style={{justifyContent: 'flex-end'}}
           title={'Parking space'}
-          value="32/40"
+          value={`${carList.length}/${size}`}
         />
       </View>
     </ImageBackground>

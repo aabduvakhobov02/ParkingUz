@@ -1,13 +1,9 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {ParkingContext} from '../contexts/parkingContext';
-import {getParkingLotById} from '../repositories/parkingLotRepository';
-import {useBeManualFetcher} from '../hooks/useBeManualFetcher';
-import {isEmpty} from 'lodash';
 
 const ParkingContextProvider = ({children}) => {
-  const [onFetch] = useBeManualFetcher();
   const [parkingId, setParkingId] = useState(null);
   const [price, setPrice] = useState(null);
   const [hour, setHour] = useState(null);
@@ -19,6 +15,7 @@ const ParkingContextProvider = ({children}) => {
     latitude: 41.305852,
     longitude: 69.280962,
   });
+  const [carList, setCarList] = useState([]);
   const [isCalculated, setIsCalculated] = useState(false);
 
   const fetchData = async () => {
@@ -46,8 +43,6 @@ const ParkingContextProvider = ({children}) => {
     getParkingId();
   }, []);
 
-  console.log(isCalculated, parkingId);
-
   return (
     <ParkingContext.Provider
       value={{
@@ -58,6 +53,7 @@ const ParkingContextProvider = ({children}) => {
         address,
         location,
         description,
+        carList,
         setPrice,
         setAddress,
         setHour,
@@ -65,8 +61,10 @@ const ParkingContextProvider = ({children}) => {
         setSize,
         setLocation,
         setDescription,
+        setCarList,
         isCalculated,
         setIsCalculated,
+        parkingId,
       }}>
       {children}
     </ParkingContext.Provider>

@@ -21,7 +21,7 @@ const MainScreens = () => {
       }}>
       <Stack.Screen name="Home" component={TabBar} />
       <Stack.Screen
-        name="UpdateParkingDetailsSceen"
+        name="UpdateParkingDetailsScreen"
         component={UpdateParkingDetailsScreen}
       />
       <Stack.Screen name="CarListScreen" component={CarListScreen} />
