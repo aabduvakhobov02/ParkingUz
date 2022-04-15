@@ -4,8 +4,8 @@ import MapView, {Marker} from 'react-native-maps';
 
 const MapScreenBody = ({parkings, setIsActive, isActive, setActiveModal}) => {
   const [currentPosition] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
+    latitude: 41.30595475091525,
+    longitude: 69.28105786336747,
     latitudeDelta: 0.0122,
     longitudeDelta: 0.0121,
   });

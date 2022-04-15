@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTranslation} from 'react-i18next';
 
 import HomeScreen from '../screens/signedInScreens/HomeScreen';
 import SettingsScreen from '../screens/signedInScreens/SettingsScreen';
@@ -12,7 +12,7 @@ import CustomTabButton from './CustomTabButton';
 const Tab = createBottomTabNavigator();
 
 const TabBar = () => {
-  const parkingLotId = AsyncStorage.getItem('ParkingId');
+  const {t} = useTranslation();
 
   return (
     <Tab.Navigator
@@ -41,7 +41,9 @@ const TabBar = () => {
                 size={25}
                 color={focused ? '#e32f45' : '#748c94'}
               />
-              <Text style={{color: focused ? '#e32f45' : '#748c94'}}>Home</Text>
+              <Text style={{color: focused ? '#e32f45' : '#748c94'}}>
+                {t('Home')}
+              </Text>
             </View>
           ),
         }}></Tab.Screen>
@@ -72,7 +74,7 @@ const TabBar = () => {
                 color={focused ? '#e32f45' : '#748c94'}
               />
               <Text style={{color: focused ? '#e32f45' : '#748c94'}}>
-                Settings
+                {t('Settings')}
               </Text>
             </View>
           ),

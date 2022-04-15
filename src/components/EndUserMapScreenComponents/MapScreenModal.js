@@ -40,11 +40,15 @@ const MapScreenModal = ({activeModal, setActiveModal}) => {
               color: theme.COLORS.gray,
               fontSize: theme.SIZES.font * 1.1,
             }}>
-            {activeModal.description}
+            Descrption: Open from 9 AM till 9 PM
           </Text>
         </View>
         <View style={styles.modalInfo}>
-          <View style={[styles.parkingIcon, {justifyContent: 'flex-start'}]}>
+          <View
+            style={[
+              styles.parkingIcon,
+              {justifyContent: 'center', alignItems: 'center'},
+            ]}>
             <Ionicons
               name="ios-pricetag"
               size={theme.SIZES.icon * 1.1}
@@ -56,10 +60,14 @@ const MapScreenModal = ({activeModal, setActiveModal}) => {
                 color: theme.COLORS.gray,
               }}>
               {' '}
-              ${activeModal.price}
+              3000 UZS
             </Text>
           </View>
-          <View style={[styles.parkingIcon, {justifyContent: 'flex-start'}]}>
+          <View
+            style={[
+              styles.parkingIcon,
+              {justifyContent: 'center', alignItems: 'center'},
+            ]}>
             <Ionicons
               name="ios-star"
               size={theme.SIZES.icon * 1.1}
@@ -77,7 +85,7 @@ const MapScreenModal = ({activeModal, setActiveModal}) => {
           <View
             style={[
               styles.parkingIcon,
-              {justifyContent: 'flex-start', alignItems: 'center'},
+              {justifyContent: 'center', alignItems: 'center'},
             ]}>
             <Ionicons
               name="ios-pin"
@@ -93,7 +101,11 @@ const MapScreenModal = ({activeModal, setActiveModal}) => {
               {activeModal.price}km
             </Text>
           </View>
-          <View style={[styles.parkingIcon, {justifyContent: 'flex-start'}]}>
+          <View
+            style={[
+              styles.parkingIcon,
+              {justifyContent: 'flex-start', alignItems: 'center'},
+            ]}>
             <Ionicons
               name="ios-car"
               size={theme.SIZES.icon * 1.3}
@@ -110,10 +122,10 @@ const MapScreenModal = ({activeModal, setActiveModal}) => {
           </View>
         </View>
         <View>
-          <TouchableOpacity style={styles.payBtn}>
-            <Text style={styles.payText}>
-              Proceed to pay ${activeModal.price}
-            </Text>
+          <TouchableOpacity
+            style={styles.payBtn}
+            onPress={() => setActiveModal(null)}>
+            <Text style={styles.payText}>Close</Text>
             <Ionicons
               name="arrow-forward"
               size={theme.SIZES.icon * 1.75}
@@ -135,7 +147,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     flexDirection: 'column',
-    height: height * 0.4,
+    height: height * 0.3,
     padding: theme.SIZES.base * 2,
     backgroundColor: theme.COLORS.white,
     borderTopLeftRadius: theme.SIZES.font,
@@ -160,12 +172,13 @@ const styles = StyleSheet.create({
     paddingVertical: theme.SIZES.base,
   },
   payBtn: {
+    marginTop: 20,
     borderRadius: 6,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: theme.SIZES.base * 1.5,
-    backgroundColor: theme.COLORS.red,
+    backgroundColor: '#E63946',
   },
   payText: {
     fontWeight: '600',

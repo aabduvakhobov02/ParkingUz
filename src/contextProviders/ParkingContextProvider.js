@@ -65,6 +65,7 @@ const ParkingContextProvider = ({children}) => {
         isCalculated,
         setIsCalculated,
         parkingId,
+        setParkingId,
       }}>
       {children}
     </ParkingContext.Provider>

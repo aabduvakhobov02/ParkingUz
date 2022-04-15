@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   Text,
   StyleSheet,
@@ -7,6 +7,8 @@ import {
   Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  ImageBackground,
+  Image,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -17,7 +19,12 @@ import MapScreenHeader from '../../components/EndUserMapScreenComponents/MapScre
 import MapScreenBody from '../../components/EndUserMapScreenComponents/MapScreenBody';
 import MapScreenModal from '../../components/EndUserMapScreenComponents/MapScreenModal';
 
+import {getAllParkingLots} from '../../services/parkingLotService';
+
+import parkingFinderLogo from '../../images/parkingFinderLogo.png';
 import * as theme from '../../utilities/theme';
+import Background from '../../images/homeBackground.jpg';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 const {height, width} = Dimensions.get('screen');
 const parkings = [
@@ -29,8 +36,8 @@ const parkings = [
     spots: 20,
     free: 10,
     coordinate: {
-      latitude: 37.78735,
-      longitude: -122.4334,
+      latitude: 41.313844121058686,
+      longitude: 69.2858375264419,
     },
     description: `Description about this parking lot
 Open year 2018
@@ -44,8 +51,8 @@ Secure with CTV`,
     spots: 25,
     free: 20,
     coordinate: {
-      latitude: 37.78845,
-      longitude: -122.4344,
+      latitude: 41.321940097115295,
+      longitude: 69.27596066192854,
     },
     description: `Description about this parking lot
 Open year 2014
@@ -59,8 +66,8 @@ Secure with CTV`,
     spots: 50,
     free: 25,
     coordinate: {
-      latitude: 37.78615,
-      longitude: -122.4314,
+      latitude: 41.30614137881865,
+      longitude: 69.28147171359446,
     },
     description: `Description about this parking lot
 Open year 2019
@@ -69,6 +76,7 @@ Secure with CTV`,
 ];
 
 const MapScreen = () => {
+  const [parkingLots, setParkingLots] = useState([]);
   const [hours, setHours] = useState({});
   const [isActive, setIsActive] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
@@ -88,7 +96,17 @@ const MapScreen = () => {
     }
   };
 
+  const fetchParkingLots = useCallback(
+    async () => await getAllParkingLots(),
+    [],
+  );
+
+  const handleOnLoadFetchedParkingLots = useCallback(result => {
+    setParkingLots(prev => result);
+  }, []);
+
   return (
+    // <Fetcher action={fetchParkingLots} onLoad={handleOnLoadFetchedParkingLots}>
     <View style={styles.container}>
       <MapScreenHeader
         headerModal={headerModal}
@@ -100,7 +118,6 @@ const MapScreen = () => {
         setIsActive={setIsActive}
         setActiveModal={setActiveModal}
       />
-      {/* Parkings */}
       <FlatList
         horizontal
         pagingEnabled
@@ -111,58 +128,50 @@ const MapScreen = () => {
         data={parkings}
         keyExtractor={item => `${item.id}`}
         renderItem={({item}) => {
-          const totalPrice = item.price * hours[item.id];
           return (
             <TouchableWithoutFeedback
               key={`parking-${item.id}`}
               onPress={() => setIsActive(item.id)}>
               <View style={[styles.parking, styles.shadow]}>
-                <View style={styles.hours}>
-                  <Text style={styles.hoursTitle}>
-                    x {item.spots} {item.title}
-                  </Text>
-                </View>
-                <View style={styles.parkingInfoContainer}>
-                  <View style={styles.parkingInfo}>
-                    <View style={styles.parkingIcon}>
-                      <Ionicons name="pricetag" size={16} color={'#7D818A'} />
-                      <Text
-                        style={{
-                          marginLeft: 12,
-                          color: '#7D818A',
-                        }}>
-                        ${item.price}
-                      </Text>
-                    </View>
-                    <View style={styles.parkingIcon}>
-                      <Ionicons name="star" size={16} color={'#7D818A'} />
-                      <Text
-                        style={{
-                          marginLeft: 12,
-                          color: '#7D818A',
-                        }}>
-                        {item.rating}
-                      </Text>
-                    </View>
+                <View style={styles.detailsWrapper}>
+                  <Text style={styles.parkingName}>Parking 1</Text>
+                  <View style={styles.valuesWrapper}>
+                    <Ionicons
+                      name="radio-button-on-outline"
+                      size={20}
+                      color={'#E63946'}
+                    />
+                    <Text style={styles.title}>Parking Capacity:</Text>
+                    <Text style={styles.value}>30</Text>
                   </View>
-                  <TouchableOpacity
-                    style={styles.buy}
-                    onPress={() => setActiveModal(item)}>
-                    <View style={styles.buyTotal}>
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Ionicons name="cash" size={20} color={'#fff'} />
-                        <Text style={styles.buyTotalPrice}>{totalPrice}</Text>
-                      </View>
-                      <Text style={{color: '#fff'}}>
-                        {item.price}x{hours[item.id]} hrs
-                      </Text>
-                    </View>
-                    <View style={styles.buyBtn}>
-                      <Ionicons name="arrow-forward" size={16} color={'#fff'} />
-                    </View>
-                  </TouchableOpacity>
+                  <View style={styles.valuesWrapper}>
+                    <Ionicons
+                      name="radio-button-off-outline"
+                      size={20}
+                      color={'#E63946'}
+                    />
+                    <Text style={styles.title}>Available Spots:</Text>
+                    <Text style={styles.value}>30</Text>
+                  </View>
+                  <View style={styles.valuesWrapper}>
+                    <Ionicons
+                      name="pricetag-outline"
+                      size={20}
+                      color={'#E63946'}
+                    />
+                    <Text style={styles.title}>Price Per Hour:</Text>
+                    <Text style={styles.value}>3000 UZS</Text>
+                  </View>
                 </View>
+                <TouchableNativeFeedback onPress={() => setActiveModal(item)}>
+                  <View style={styles.buy}>
+                    <Ionicons
+                      name="chevron-forward-outline"
+                      size={40}
+                      color={'#ffffff'}
+                    />
+                  </View>
+                </TouchableNativeFeedback>
               </View>
             </TouchableWithoutFeedback>
           );
@@ -184,13 +193,20 @@ const MapScreen = () => {
           onBackdropPress={() => setHeaderModal(false)}
           onSwipeComplete={() => setHeaderModal(false)}>
           <View style={styles.modal}>
-            <View style={styles.modalHeader}></View>
+            <ImageBackground
+              source={Background}
+              resizeMode="cover"
+              style={styles.modalHeader}>
+              <View style={styles.logo}>
+                <Image source={parkingFinderLogo} />
+              </View>
+            </ImageBackground>
             <View style={styles.modalBody}>
               <TouchableOpacity style={styles.listItem} onPress={logOut}>
                 <Ionicons
                   name="log-out-outline"
                   size={theme.SIZES.icon * 1.75}
-                  color={theme.COLORS.black}
+                  color={'#E63946'}
                 />
                 <Text style={styles.listItemText}>Log out</Text>
               </TouchableOpacity>
@@ -199,6 +215,7 @@ const MapScreen = () => {
         </Modal>
       )}
     </View>
+    // </Fetcher>
   );
 };
 
@@ -209,6 +226,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.COLORS.white,
   },
+  logo: {
+    paddingVertical: 32,
+    paddingLeft: 6,
+  },
   parkings: {
     position: 'absolute',
     right: 0,
@@ -218,47 +239,47 @@ const styles = StyleSheet.create({
   },
   parking: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
     backgroundColor: theme.COLORS.white,
-    borderRadius: 6,
-    padding: theme.SIZES.base,
+    borderRadius: 20,
+    paddingHorizontal: 22,
+    paddingVertical: 20,
     marginHorizontal: theme.SIZES.base * 2,
     width: width - 24 * 2,
   },
   buy: {
     flex: 1,
     flexDirection: 'row',
-    paddingHorizontal: theme.SIZES.base * 1.5,
-    paddingVertical: theme.SIZES.base,
-    backgroundColor: theme.COLORS.red,
-    borderRadius: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    backgroundColor: '#E63946',
+    borderRadius: 20,
+    marginBottom: 5,
   },
-  buyTotal: {
-    flex: 1,
-    justifyContent: 'space-evenly',
-    color: '#000',
-  },
-  buyTotalPrice: {
-    color: theme.COLORS.white,
-    fontSize: theme.SIZES.base * 2,
-    fontWeight: '600',
-    paddingLeft: theme.SIZES.base / 4,
-  },
-  buyBtn: {
-    flex: 0.5,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  marker: {
+  valuesWrapper: {
     flexDirection: 'row',
-    backgroundColor: theme.COLORS.white,
-    borderRadius: theme.SIZES.base * 2,
-    paddingVertical: 12,
-    paddingHorizontal: theme.SIZES.base * 2,
-    borderWidth: 1,
-    borderColor: theme.COLORS.white,
+    paddingVertical: 5,
+    alignItems: 'center',
   },
-  markerPrice: {color: theme.COLORS.red, fontWeight: 'bold'},
-  markerStatus: {color: theme.COLORS.gray},
+  title: {
+    fontSize: 16,
+    color: '#1D3557',
+    paddingLeft: 4,
+  },
+  parkingName: {
+    fontSize: 24,
+    color: '#1D3557',
+    fontWeight: '700',
+    paddingBottom: 10,
+  },
+  value: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1D3557',
+    paddingLeft: 4,
+  },
+
   shadow: {
     shadowColor: theme.COLORS.black,
     shadowOffset: {
@@ -268,51 +289,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
-  active: {
-    borderColor: theme.COLORS.red,
-  },
-  hours: {
-    flex: 1,
-    flexDirection: 'column',
-    marginLeft: theme.SIZES.base / 2,
-    justifyContent: 'space-evenly',
-  },
-  hoursTitle: {
-    fontSize: theme.SIZES.text,
-    fontWeight: '500',
-    color: '#000',
-  },
-  hoursDropdown: {
-    borderRadius: theme.SIZES.base / 2,
-    borderColor: theme.COLORS.overlay,
-    borderWidth: 1,
-    padding: theme.SIZES.base,
-    marginRight: theme.SIZES.base / 2,
-    color: theme.COLORS.gray,
-  },
-  hoursDropdownOption: {
-    padding: 5,
-    fontSize: theme.SIZES.font * 0.8,
-    color: '#000',
-  },
-  hoursDropdownStyle: {
-    marginLeft: -theme.SIZES.base,
-    paddingHorizontal: theme.SIZES.base / 2,
-    marginVertical: -(theme.SIZES.base + 1),
-  },
-  parkingInfoContainer: {
-    flex: 1.5,
-    flexDirection: 'row',
-  },
-  parkingInfo: {
-    justifyContent: 'space-evenly',
-    marginHorizontal: theme.SIZES.base * 1.5,
-  },
-  parkingIcon: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-
   modalContainer: {
     margin: 0,
     justifyContent: 'flex-start',
@@ -340,5 +316,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 14,
     fontWeight: '500',
+    color: '#1D3557',
   },
 });

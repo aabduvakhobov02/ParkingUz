@@ -55,7 +55,6 @@ const ScanScreen = ({navigation}) => {
     onFetch({
       action: async () => await getCarByNumber(parkingId, text),
       onLoad: result => {
-        console.log(result);
         setExistingCarDetails(prev => result);
       },
     });
@@ -64,8 +63,6 @@ const ScanScreen = ({navigation}) => {
   useEffect(() => {
     const copiedCarList = carList;
 
-    const car = copiedCarList.find(car => car.carNumber == text);
-    console.log('car', car);
     if (copiedCarList.find(car => car.carNumber == text)) {
       setShowDeleteModal(true);
       getExistingVehicle();
@@ -143,11 +140,13 @@ const ScanScreen = ({navigation}) => {
             <View style={[styles.textWrapper, styles.carNumberWrapper]}>
               <Text style={styles.carNumber}>{t('Total Price')}: </Text>
               <Text style={[styles.carNumber, styles.carNumberBold]}>
-                {parseFloat(
+                {(parseFloat(
                   getCurrentTimeDifferenceInHours(
                     moment.unix(existingCarDetails?.createAt),
                   ),
-                ) * parseFloat(price)}{' '}
+                ) +
+                  1) *
+                  parseFloat(price)}{' '}
                 UZS
               </Text>
             </View>

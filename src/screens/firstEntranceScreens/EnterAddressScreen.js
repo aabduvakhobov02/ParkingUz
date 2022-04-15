@@ -29,6 +29,7 @@ const EnterAddressScreen = () => {
     location,
     setLocation,
     setIsCalculated,
+    setParkingId,
   } = useParkingContext();
   const [onFetch] = useBeManualFetcher();
 
@@ -59,10 +60,15 @@ const EnterAddressScreen = () => {
       action: async () => await createParkingLot(body),
       onLoad: async result => {
         try {
-          await AsyncStorage.setItem('ParkingId', `${result?.id}`);
-          await AsyncStorage.setItem('IsCalculated', `true`);
-          setIsCalculated(prev => true);
-        } catch (error) {}
+          await AsyncStorage.setItem('ParkingId', `${result?.id}`).then(() =>
+            setParkingId(result.id),
+          );
+          await AsyncStorage.setItem('IsCalculated', `true`).then(() =>
+            setIsCalculated(prev => true),
+          );
+        } catch (error) {
+          console.log(error);
+        }
       },
       successMessage: 'Parking Lot created succesfully',
     });

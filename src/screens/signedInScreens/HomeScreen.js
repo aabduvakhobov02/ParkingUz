@@ -18,6 +18,7 @@ const HomeScreen = ({navigation}) => {
   const {
     size,
     parkingId,
+    carList,
     setPrice,
     setAddress,
     setHour,
@@ -91,12 +92,12 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.header}>Statistics by place</Text>
             <View style={styles.bodyCardsWrapper}>
               <StatsCard
-                value="32"
+                value={`${carList.length}`}
                 title={'Cars in the parking lot'}
                 shadow={styles.shadow}
               />
               <StatsCard
-                value={`${size}`}
+                value={`${parseFloat(size) - parseFloat(carList.length)}`}
                 title={'Empty parking spaces'}
                 shadow={styles.shadow}
               />
