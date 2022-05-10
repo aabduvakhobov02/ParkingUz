@@ -35,7 +35,7 @@ const WelcomeScreen = ({navigation}) => {
             {t('Manage your parking lot easily and simply.')}
           </Text>
           <Text style={styles.text}>
-            Conveniently track the cars that are in your parking lot
+            {t('Conveniently track the cars that are in your parking lot')}
           </Text>
         </View>
         <ButtonWithIcon

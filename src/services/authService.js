@@ -3,6 +3,7 @@ import {
   customTokenSignIn,
   logOut,
   getFirebaseIdToken,
+  getParsedIdToken,
   onTokenChanged,
   auth,
 } from '../repositories/firebaseRepository';
@@ -38,7 +39,7 @@ export const onIdTokenChanged = callback => onTokenChanged(callback);
 
 export const getUserRoles = async () => {
   const parsedToken = await getParsedIdToken();
-  return parsedToken;
+  return parsedToken.claims.role;
 };
 
 export const firebaseAuth = auth;

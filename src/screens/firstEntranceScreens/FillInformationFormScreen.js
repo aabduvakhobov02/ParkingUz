@@ -6,6 +6,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
@@ -25,6 +26,7 @@ const FillInformationFormScreen = ({navigation}) => {
     setPrice,
     setDescription,
   } = useParkingContext();
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +35,9 @@ const FillInformationFormScreen = ({navigation}) => {
         resizeMethod="resize"
         style={styles.backgroundImage}>
         <View style={styles.body}>
-          <Text style={styles.title}>Please, fill in the form below</Text>
+          <Text style={styles.title}>
+            {t('Please, fill in the form below')}
+          </Text>
           <InputWithLabel
             label={'Enter your Company name'}
             placeholder={'Company name'}
@@ -53,7 +57,7 @@ const FillInformationFormScreen = ({navigation}) => {
             onChange={setPrice}
           />
           <InputWithLabel
-            label={'Enter woking hours'}
+            label={'Enter working hours'}
             placeholder={'Working hours'}
             value={description}
             onChange={setDescription}

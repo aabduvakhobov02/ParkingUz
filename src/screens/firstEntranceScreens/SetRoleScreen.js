@@ -8,22 +8,15 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTranslation} from 'react-i18next';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 import sample from '../../images/sampleImage.png';
 
 const SetRoleScreen = ({navigation}) => {
-  const storeData = async () => {
-    try {
-      navigation.push('EndUserScreens');
-      await AsyncStorage.setItem('isEndUser', 'true');
-    } catch (e) {
-      // saving error
-    }
-  };
+  const {t} = useTranslation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,17 +26,14 @@ const SetRoleScreen = ({navigation}) => {
         style={styles.backgroundImage}>
         <View style={styles.body}>
           <View>
-            <Text style={styles.title}>What do you want to do?</Text>
-            {/* <Text style={styles.subtitle}>
-              Let's identify in what extent you want to use the Parking.uz.
-            </Text> */}
+            <Text style={styles.title}>{t('What do you want to do?')}</Text>
             <View style={styles.optionWrapper}>
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => {
-                  storeData();
-                }}>
-                <Text style={styles.text}>Find parking locations</Text>
+                onPress={() =>
+                  navigation.navigate('SignIn', {isEndUser: true})
+                }>
+                <Text style={styles.text}>{t('Find parking locations')}</Text>
                 <Image source={sample} />
                 <Ionicons
                   name="arrow-forward-outline"
@@ -54,8 +44,10 @@ const SetRoleScreen = ({navigation}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => navigation.navigate('SignIn')}>
-                <Text style={styles.text}>Manage your parking lot</Text>
+                onPress={() =>
+                  navigation.navigate('SignIn', {isEndUser: false})
+                }>
+                <Text style={styles.text}>{t('Manage your parking lot')}</Text>
                 <Image source={sample} style={styles.image} />
                 <Ionicons
                   name="arrow-forward-outline"

@@ -6,6 +6,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
@@ -16,7 +17,10 @@ import {FIREBASE_ERROR_MESSAGES} from '../../utilities/constants';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({route, navigation}) => {
+  const {t} = useTranslation();
+  const {isEndUser} = route.params;
+
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -32,17 +36,20 @@ const RegisterScreen = ({navigation}) => {
   };
 
   const handleSignUp = async () => {
-    const role = 'OCR:ADMIN';
+    const role = isEndUser ? 'OCR:USER' : 'OCR:ADMIN';
 
     setIsLoading(true);
 
     try {
-      await signUp({email, password, firstName, lastName, role}).then(() =>
-        navigation.navigate('FillInformationForm'),
-      );
+      await signUp({email, password, firstName, lastName, role}).then(() => {
+        if (isEndUser) {
+          return navigation.push('EndUserScreens');
+        }
+
+        return navigation.navigate('FillInformationForm');
+      });
     } catch (err) {
       onErrorStatus(FIREBASE_ERROR_MESSAGES[err.code] ?? err.message);
-      
     }
 
     setIsLoading(false);
@@ -56,8 +63,10 @@ const RegisterScreen = ({navigation}) => {
         style={styles.backgroundImage}>
         <View style={styles.body}>
           <View>
-            <Text style={styles.title}>Sign Up</Text>
-            <Text style={styles.subtitle}>Create New Parking.uz Account</Text>
+            <Text style={styles.title}>{t('Sign Up')}</Text>
+            <Text style={styles.subtitle}>
+              {t('Create New Parking.uz Account')}
+            </Text>
           </View>
           <InputWithLabel
             label={'First Name'}
@@ -101,12 +110,12 @@ const RegisterScreen = ({navigation}) => {
             />
           )}
           <View style={styles.textWrapper}>
-            <Text style={styles.text}>Already have an account?</Text>
+            <Text style={styles.text}>{t('Already have an account?')}</Text>
             <Text
               style={[styles.text, styles.link]}
               onPress={() => navigation.navigate('SignIn')}>
               {' '}
-              Sign in
+              {t('Sign In')}
             </Text>
           </View>
         </View>

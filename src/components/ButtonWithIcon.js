@@ -8,7 +8,7 @@ const ButtonWithIcon = ({text, icon, onPress, style}) => {
 
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
-      <Text style={styles.text}>{t(`${text}`)}</Text>
+      <Text style={styles.text}>{t(text)}</Text>
       <Ionicons name={icon} size={24} color={'#fff'} />
     </TouchableOpacity>
   );
