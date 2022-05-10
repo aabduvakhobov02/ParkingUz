@@ -35,13 +35,13 @@ const HomeScreen = ({navigation}) => {
   );
 
   const handleOnLoadFetchedDetails = useCallback(result => {
-    setPrice(result?.serviceCost?.price?.amount);
-    setAddress(result?.setAddress);
-    setHour(result?.serviceCost?.hour);
-    setName(result?.name);
-    setSize(result?.size);
-    setLocation(result?.address?.point);
-    setDescription(result?.description);
+    setPrice(prev => result?.serviceCost?.price?.amount);
+    setAddress(prev => result?.setAddress);
+    setHour(prev => result?.serviceCost?.hour);
+    setName(prev => result?.name);
+    setSize(prev => result?.size);
+    setLocation(prev => result?.address?.point);
+    setDescription(prev => result?.description);
   }, []);
 
   const fetchCars = useCallback(
@@ -71,7 +71,7 @@ const HomeScreen = ({navigation}) => {
             <View style={styles.cardWrapper}>
               <StatsCard
                 style={{marginBottom: 10}}
-                value="876 000 soum"
+                value="0 UZS"
                 title={'Daily income'}
                 icon={MoneyIcon}
               />
@@ -89,7 +89,7 @@ const HomeScreen = ({navigation}) => {
             </View>
           </ImageBackground>
           <View style={styles.body}>
-            <Text style={styles.header}>Statistics by place</Text>
+            <Text style={styles.header}>{t('Statistics by place')}</Text>
             <View style={styles.bodyCardsWrapper}>
               <StatsCard
                 value={`${carList.length}`}

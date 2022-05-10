@@ -4,8 +4,10 @@ import {
   View,
   SafeAreaView,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import InputWithLabel from '../../components/InputWithLabel';
@@ -16,16 +18,20 @@ import {useAuthContext} from '../../hooks/useAuthContext';
 
 import backgroundImage from '../../images/coverBackground.jpg';
 
-const SignInScreen = ({navigation}) => {
+const SignInScreen = ({route, navigation}) => {
+  const {t} = useTranslation();
+  const {isEndUser} = route.params;
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const {onErrorStatus} = useStatusContext();
-  const {user} = useAuthContext();
 
   const handleEyePress = () => {
     setShowPassword(prev => !prev);
   };
+
+  const errorAlert = err =>
+    Alert.alert('Error on Sign In.', `${err.beErrorCode}`, [{text: 'OK'}]);
 
   const handleSignIn = async () => {
     try {
@@ -34,10 +40,7 @@ const SignInScreen = ({navigation}) => {
         password,
       });
     } catch (err) {
-      onErrorStatus({
-        title: 'Error on Sign In.',
-      });
-      console.log(err);
+      errorAlert(err);
     }
   };
 
@@ -49,9 +52,9 @@ const SignInScreen = ({navigation}) => {
         style={styles.backgroundImage}>
         <View style={styles.body}>
           <View>
-            <Text style={styles.title}>Sign In</Text>
+            <Text style={styles.title}>{t('Sign In')}</Text>
             <Text style={styles.subtitle}>
-              Access Parking.uz using your email and password.
+              {t('Access Parking.uz using your email and password.')}
             </Text>
           </View>
           <InputWithLabel
@@ -84,12 +87,14 @@ const SignInScreen = ({navigation}) => {
             />
           )}
           <View style={styles.textWrapper}>
-            <Text style={styles.text}>New on our platform?</Text>
+            <Text style={styles.text}>{t('New on our platform?')}</Text>
             <Text
               style={[styles.text, styles.link]}
-              onPress={() => navigation.navigate('Register')}>
+              onPress={() =>
+                navigation.navigate('Register', {isEndUser: isEndUser})
+              }>
               {' '}
-              Create an account
+              {t('Create an account')}
             </Text>
           </View>
         </View>

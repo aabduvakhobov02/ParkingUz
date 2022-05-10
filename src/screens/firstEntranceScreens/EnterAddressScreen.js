@@ -5,9 +5,10 @@ import {
   SafeAreaView,
   ImageBackground,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTranslation} from 'react-i18next';
 
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 
@@ -32,6 +33,9 @@ const EnterAddressScreen = () => {
     setParkingId,
   } = useParkingContext();
   const [onFetch] = useBeManualFetcher();
+
+  const errorAlert = err =>
+    Alert.alert('Something went wrong', `${err}`, [{text: 'OK'}]);
 
   const onSubmit = async () => {
     const body = {
@@ -67,7 +71,7 @@ const EnterAddressScreen = () => {
             setIsCalculated(prev => true),
           );
         } catch (error) {
-          console.log(error);
+          errorAlert(error);
         }
       },
       successMessage: 'Parking Lot created succesfully',
@@ -81,7 +85,7 @@ const EnterAddressScreen = () => {
         resizeMethod="resize"
         style={styles.backgroundImage}>
         <View style={styles.body}>
-          <Text style={styles.title}>Enter parking lot address</Text>
+          <Text style={styles.title}>{t('Enter parking lot address')}</Text>
           <InputWithIcon
             iconName={'search'}
             placeholder={'Search'}

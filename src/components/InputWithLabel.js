@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, TextInput} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useTranslation} from 'react-i18next';
 
 const InputWithLabel = ({
   label,
@@ -12,13 +13,14 @@ const InputWithLabel = ({
   onIconPress,
   value,
 }) => {
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{label}</Text>
+      <Text style={styles.text}>{t(label)}</Text>
       <View style={hasIcon && styles.inputWrapper}>
         <TextInput
           style={hasIcon ? styles.inputWithIcon : styles.input}
-          placeholder={placeholder}
+          placeholder={t(placeholder)}
           placeholderTextColor="#9297B7"
           value={value}
           onChangeText={onChange}

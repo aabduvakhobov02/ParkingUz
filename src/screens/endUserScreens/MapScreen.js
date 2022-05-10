@@ -12,14 +12,16 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 
 import MapScreenHeader from '../../components/EndUserMapScreenComponents/MapScreenHeader';
 import MapScreenBody from '../../components/EndUserMapScreenComponents/MapScreenBody';
 import MapScreenModal from '../../components/EndUserMapScreenComponents/MapScreenModal';
+import Fetcher from '../../components/FetcherComponent';
 
 import {getAllParkingLots} from '../../services/parkingLotService';
+import {signOut} from '../../services/authService';
 
 import parkingFinderLogo from '../../images/parkingFinderLogo.png';
 import * as theme from '../../utilities/theme';
@@ -27,72 +29,29 @@ import Background from '../../images/homeBackground.jpg';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 const {height, width} = Dimensions.get('screen');
-const parkings = [
-  {
-    id: 1,
-    title: 'Parking 1',
-    price: 5,
-    rating: 4.2,
-    spots: 20,
-    free: 10,
-    coordinate: {
-      latitude: 41.313844121058686,
-      longitude: 69.2858375264419,
-    },
-    description: `Description about this parking lot
-Open year 2018
-Secure with CTV`,
-  },
-  {
-    id: 2,
-    title: 'Parking 2',
-    price: 7,
-    rating: 3.8,
-    spots: 25,
-    free: 20,
-    coordinate: {
-      latitude: 41.321940097115295,
-      longitude: 69.27596066192854,
-    },
-    description: `Description about this parking lot
-Open year 2014
-Secure with CTV`,
-  },
-  {
-    id: 3,
-    title: 'Parking 3',
-    price: 10,
-    rating: 4.9,
-    spots: 50,
-    free: 25,
-    coordinate: {
-      latitude: 41.30614137881865,
-      longitude: 69.28147171359446,
-    },
-    description: `Description about this parking lot
-Open year 2019
-Secure with CTV`,
-  },
-];
 
 const MapScreen = () => {
   const [parkingLots, setParkingLots] = useState([]);
-  const [hours, setHours] = useState({});
   const [isActive, setIsActive] = useState(null);
   const [activeModal, setActiveModal] = useState(null);
   const [headerModal, setHeaderModal] = useState(false);
   const navigation = useNavigation();
+  const {t} = useTranslation();
 
-  const logOut = () => {
+  const errorAlert = err =>
+    Alert.alert('Error on Sign Out.', `${err}`, [{text: 'OK'}]);
+
+  const logOut = async () => {
     try {
       setHeaderModal(false);
       navigation.reset({
         index: 0,
         routes: [{name: 'LanguageSelection'}],
       });
-      AsyncStorage.removeItem('isEndUser');
+
+      await signOut();
     } catch (e) {
-      console.log(e);
+      errorAlert(e);
     }
   };
 
@@ -106,116 +65,119 @@ const MapScreen = () => {
   }, []);
 
   return (
-    // <Fetcher action={fetchParkingLots} onLoad={handleOnLoadFetchedParkingLots}>
-    <View style={styles.container}>
-      <MapScreenHeader
-        headerModal={headerModal}
-        setHeaderModal={setHeaderModal}
-      />
-      <MapScreenBody
-        parkings={parkings}
-        isActive={isActive}
-        setIsActive={setIsActive}
-        setActiveModal={setActiveModal}
-      />
-      <FlatList
-        horizontal
-        pagingEnabled
-        scrollEnabled
-        showsHorizontalScrollIndicator={false}
-        scrollToItem={isActive}
-        style={styles.parkings}
-        data={parkings}
-        keyExtractor={item => `${item.id}`}
-        renderItem={({item}) => {
-          return (
-            <TouchableWithoutFeedback
-              key={`parking-${item.id}`}
-              onPress={() => setIsActive(item.id)}>
-              <View style={[styles.parking, styles.shadow]}>
-                <View style={styles.detailsWrapper}>
-                  <Text style={styles.parkingName}>Parking 1</Text>
-                  <View style={styles.valuesWrapper}>
-                    <Ionicons
-                      name="radio-button-on-outline"
-                      size={20}
-                      color={'#E63946'}
-                    />
-                    <Text style={styles.title}>Parking Capacity:</Text>
-                    <Text style={styles.value}>30</Text>
-                  </View>
-                  <View style={styles.valuesWrapper}>
-                    <Ionicons
-                      name="radio-button-off-outline"
-                      size={20}
-                      color={'#E63946'}
-                    />
-                    <Text style={styles.title}>Available Spots:</Text>
-                    <Text style={styles.value}>30</Text>
-                  </View>
-                  <View style={styles.valuesWrapper}>
-                    <Ionicons
-                      name="pricetag-outline"
-                      size={20}
-                      color={'#E63946'}
-                    />
-                    <Text style={styles.title}>Price Per Hour:</Text>
-                    <Text style={styles.value}>3000 UZS</Text>
-                  </View>
-                </View>
-                <TouchableNativeFeedback onPress={() => setActiveModal(item)}>
-                  <View style={styles.buy}>
-                    <Ionicons
-                      name="chevron-forward-outline"
-                      size={40}
-                      color={'#ffffff'}
-                    />
-                  </View>
-                </TouchableNativeFeedback>
-              </View>
-            </TouchableWithoutFeedback>
-          );
-        }}
-      />
-      {activeModal && (
-        <MapScreenModal
-          activeModal={activeModal}
+    <Fetcher action={fetchParkingLots} onLoad={handleOnLoadFetchedParkingLots}>
+      <View style={styles.container}>
+        <MapScreenHeader
+          headerModal={headerModal}
+          setHeaderModal={setHeaderModal}
+        />
+        <MapScreenBody
+          parkings={parkingLots}
+          isActive={isActive}
+          setIsActive={setIsActive}
           setActiveModal={setActiveModal}
         />
-      )}
-      {headerModal && (
-        <Modal
-          isVisible
-          useNativeDriver
-          style={styles.modalContainer}
-          backdropColor={theme.COLORS.overlay}
-          onBackButtonPress={() => setHeaderModal(false)}
-          onBackdropPress={() => setHeaderModal(false)}
-          onSwipeComplete={() => setHeaderModal(false)}>
-          <View style={styles.modal}>
-            <ImageBackground
-              source={Background}
-              resizeMode="cover"
-              style={styles.modalHeader}>
-              <View style={styles.logo}>
-                <Image source={parkingFinderLogo} />
+        <FlatList
+          horizontal
+          pagingEnabled
+          scrollEnabled
+          showsHorizontalScrollIndicator={false}
+          scrollToItem={isActive}
+          style={styles.parkings}
+          data={parkingLots}
+          keyExtractor={item => `${item.id}`}
+          renderItem={({item}) => {
+            return (
+              <TouchableWithoutFeedback
+                key={`parking-${item.id}`}
+                onPress={() => setIsActive(item.id)}>
+                <View style={[styles.parking, styles.shadow]}>
+                  <View style={styles.detailsWrapper}>
+                    <Text style={styles.parkingName}>{item?.name}</Text>
+                    <View style={styles.valuesWrapper}>
+                      <Ionicons
+                        name="radio-button-on-outline"
+                        size={20}
+                        color={'#E63946'}
+                      />
+                      <Text style={styles.title}>{t('Parking Capacity')}:</Text>
+                      <Text style={styles.value}>{item?.size}</Text>
+                    </View>
+                    <View style={styles.valuesWrapper}>
+                      <Ionicons
+                        name="radio-button-off-outline"
+                        size={20}
+                        color={'#E63946'}
+                      />
+                      <Text style={styles.title}>{t('Available Spots')}:</Text>
+                      <Text style={styles.value}>{item?.size}</Text>
+                    </View>
+                    <View style={styles.valuesWrapper}>
+                      <Ionicons
+                        name="pricetag-outline"
+                        size={20}
+                        color={'#E63946'}
+                      />
+                      <Text style={styles.title}>{t('Price Per Hour')}:</Text>
+                      <Text style={styles.value}>
+                        {item?.serviceCost?.price?.amount}{' '}
+                        {item?.serviceCost?.price?.currency}S
+                      </Text>
+                    </View>
+                  </View>
+                  <TouchableNativeFeedback onPress={() => setActiveModal(item)}>
+                    <View style={styles.buy}>
+                      <Ionicons
+                        name="chevron-forward-outline"
+                        size={40}
+                        color={'#ffffff'}
+                      />
+                    </View>
+                  </TouchableNativeFeedback>
+                </View>
+              </TouchableWithoutFeedback>
+            );
+          }}
+        />
+        {activeModal && (
+          <MapScreenModal
+            activeModal={activeModal}
+            setActiveModal={setActiveModal}
+          />
+        )}
+        {headerModal && (
+          <Modal
+            isVisible
+            useNativeDriver
+            style={styles.modalContainer}
+            backdropColor={theme.COLORS.overlay}
+            onBackButtonPress={() => setHeaderModal(false)}
+            onBackdropPress={() => setHeaderModal(false)}
+            onSwipeComplete={() => setHeaderModal(false)}>
+            <View style={styles.modal}>
+              <ImageBackground
+                source={Background}
+                resizeMode="cover"
+                style={styles.modalHeader}>
+                <View style={styles.logo}>
+                  <Image source={parkingFinderLogo} />
+                </View>
+              </ImageBackground>
+              <View style={styles.modalBody}>
+                <TouchableOpacity style={styles.listItem} onPress={logOut}>
+                  <Ionicons
+                    name="log-out-outline"
+                    size={theme.SIZES.icon * 1.75}
+                    color={'#E63946'}
+                  />
+                  <Text style={styles.listItemText}>{t('Log out')}</Text>
+                </TouchableOpacity>
               </View>
-            </ImageBackground>
-            <View style={styles.modalBody}>
-              <TouchableOpacity style={styles.listItem} onPress={logOut}>
-                <Ionicons
-                  name="log-out-outline"
-                  size={theme.SIZES.icon * 1.75}
-                  color={'#E63946'}
-                />
-                <Text style={styles.listItemText}>Log out</Text>
-              </TouchableOpacity>
             </View>
-          </View>
-        </Modal>
-      )}
-    </View>
-    // </Fetcher>
+          </Modal>
+        )}
+      </View>
+    </Fetcher>
   );
 };
 

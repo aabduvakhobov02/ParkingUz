@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Text, StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 
@@ -15,7 +15,7 @@ const MapScreenBody = ({parkings, setIsActive, isActive, setActiveModal}) => {
       {parkings.map(parking => (
         <Marker
           key={`marker-${parking.id}`}
-          coordinate={parking.coordinate}
+          coordinate={parking?.address?.point}
           onPress={() => {
             setIsActive(parking.id);
             setActiveModal(parking);
@@ -27,9 +27,12 @@ const MapScreenBody = ({parkings, setIsActive, isActive, setActiveModal}) => {
                 styles.shadow,
                 isActive === parking.id ? styles.active : null,
               ]}>
-              <Text style={styles.markerPrice}>${parking.price}</Text>
+              <Text style={styles.markerPrice}>
+                {parking?.serviceCost?.price?.amount}{' '}
+                {parking?.serviceCost?.price?.currency}S
+              </Text>
               <Text style={styles.markerStatus}>
-                ({parking.free}/{parking.spots})
+                ({parking?.size}/{parking?.size})
               </Text>
             </View>
           </TouchableWithoutFeedback>

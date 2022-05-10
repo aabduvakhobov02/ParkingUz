@@ -7,6 +7,7 @@ import {
   deleteUser,
   signInWithCustomToken,
   onIdTokenChanged,
+  getIdTokenResult,
 } from 'firebase/auth';
 
 import {getFirebaseProjectSettings} from '../configs/repositoryConfig';

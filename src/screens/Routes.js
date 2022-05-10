@@ -17,7 +17,7 @@ import MainScreens from './signedInScreens/MainScreens';
 const Stack = createStackNavigator();
 
 const Routes = () => {
-  const {user, isUserLoading, isEndUser} = useAuthContext();
+  const {user, isUserLoading, isEndUser, userRoles} = useAuthContext();
   const {isCalculated} = useParkingContext();
 
   return (
@@ -28,13 +28,13 @@ const Routes = () => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           animationEnabled: true,
         }}>
-        {isEndUser ? (
-          <Stack.Screen name="EndUserScreens" component={EndUserScreens} />
-        ) : !user || !isCalculated ? (
+        {!user || !isCalculated ? (
           <Stack.Screen
             name="FirstEntranceScreens"
             component={FirstEntranceScreens}
           />
+        ) : user && userRoles === 'OCR:USER' ? (
+          <Stack.Screen name="EndUserScreens" component={EndUserScreens} />
         ) : (
           <Stack.Screen name="MainScreens" component={MainScreens} />
         )}

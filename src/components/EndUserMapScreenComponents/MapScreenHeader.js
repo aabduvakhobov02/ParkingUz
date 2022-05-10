@@ -1,12 +1,14 @@
 import {StyleSheet, Text, View, TouchableWithoutFeedback} from 'react-native';
 import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useTranslation} from 'react-i18next';
 
 const MapScreenHeader = ({location, headerModal, setHeaderModal}) => {
+  const {t} = useTranslation();
   return (
     <View style={styles.header}>
       <View style={styles.locationWrapper}>
-        <Text style={styles.headerTitle}>Detected location</Text>
+        <Text style={styles.headerTitle}>{t('Detected location')}</Text>
         <Text style={styles.headerLocation}>Tashkent, Uzbekistan</Text>
       </View>
       <View style={styles.menuWrapper}>

@@ -1,12 +1,15 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 const StatsCard = ({title, icon, value, style, shadow}) => {
+  const {t} = useTranslation();
+
   return (
     <View style={[styles.container, style, shadow]}>
       <View style={styles.top}>
         <Text style={[styles.title, {width: !icon ? '80%' : '60%'}]}>
-          {title}
+          {t(title)}
         </Text>
         {icon && <Image source={icon} style={styles.icon} />}
       </View>
