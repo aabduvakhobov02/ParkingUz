@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {
   createStackNavigator,
@@ -17,7 +17,7 @@ import MainScreens from './signedInScreens/MainScreens';
 const Stack = createStackNavigator();
 
 const Routes = () => {
-  const {user, isUserLoading, isEndUser, userRoles} = useAuthContext();
+  const {user, userRoles} = useAuthContext();
   const {isCalculated} = useParkingContext();
 
   return (
@@ -33,10 +33,13 @@ const Routes = () => {
             name="FirstEntranceScreens"
             component={FirstEntranceScreens}
           />
-        ) : user && userRoles === 'OCR:USER' ? (
-          <Stack.Screen name="EndUserScreens" component={EndUserScreens} />
-        ) : (
+        ) : user && userRoles === 'OCR:ADMIN' && isCalculated ? (
           <Stack.Screen name="MainScreens" component={MainScreens} />
+        ) : (
+          user &&
+          userRoles === 'OCR:USER' && (
+            <Stack.Screen name="EndUserScreens" component={EndUserScreens} />
+          )
         )}
       </Stack.Navigator>
     </NavigationContainer>

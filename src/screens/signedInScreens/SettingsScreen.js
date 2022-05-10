@@ -1,11 +1,13 @@
 import {StyleSheet, View, FlatList, SafeAreaView} from 'react-native';
 import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import SettingsScreenHeader from '../../components/SettingsScreenComponents/SettingsScreenHeader';
 import SettingsListItem from '../../components/SettingsScreenComponents/SettingsListItem';
 
 import {signOut} from '../../services/authService';
 import {useStatusContext} from '../../hooks/useStatusContext';
+import {useParkingContext} from '../../hooks/useParkingContext';
 
 const SettingsScreen = ({navigation}) => {
   const [list, setList] = useState([
@@ -21,6 +23,7 @@ const SettingsScreen = ({navigation}) => {
     },
   ]);
   const {onErrorStatus} = useStatusContext();
+  const {setIsCalculated, setParkingId} = useParkingContext();
 
   const pressHandler = async id => {
     if (id === 1) {

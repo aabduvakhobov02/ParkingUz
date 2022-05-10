@@ -4,6 +4,7 @@ import {
   View,
   SafeAreaView,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import React from 'react';
 import MapView, {Marker} from 'react-native-maps';
@@ -33,9 +34,10 @@ const EnterAddressScreen = () => {
     setParkingId,
   } = useParkingContext();
   const [onFetch] = useBeManualFetcher();
+  const {t} = useTranslation();
 
   const errorAlert = err =>
-    Alert.alert('Something went wrong', `${err}`, [{text: 'OK'}]);
+    Alert.alert('Something went wrong', `${err}`, [{text: 'Close'}]);
 
   const onSubmit = async () => {
     const body = {
@@ -67,7 +69,7 @@ const EnterAddressScreen = () => {
           await AsyncStorage.setItem('ParkingId', `${result?.id}`).then(() =>
             setParkingId(result.id),
           );
-          await AsyncStorage.setItem('IsCalculated', `true`).then(() =>
+          await AsyncStorage.setItem('IsCalculated', 'true').then(() =>
             setIsCalculated(prev => true),
           );
         } catch (error) {

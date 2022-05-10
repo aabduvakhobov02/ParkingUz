@@ -11,7 +11,6 @@ import {
 } from 'firebase/auth';
 
 import {getFirebaseProjectSettings} from '../configs/repositoryConfig';
-import {throwHttpError} from '../utilities/errorHandlingUtils';
 
 const firebaseAppConfig = getFirebaseProjectSettings();
 
@@ -21,12 +20,7 @@ const auth = getAuth(app);
 const logInWithEmailAndPassword = async ({email, password}) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
-  } catch (err) {
-    throw throwHttpError({
-      beErrorCode: err.code,
-      message: err.message,
-    });
-  }
+  } catch (err) {}
 };
 
 const logOut = async () => await signOut(auth);

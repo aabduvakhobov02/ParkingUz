@@ -43,6 +43,7 @@ const ParkingContextProvider = ({children}) => {
     getParkingId();
   }, []);
 
+  useEffect
   return (
     <ParkingContext.Provider
       value={{

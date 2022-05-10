@@ -4,6 +4,7 @@ import {
   View,
   SafeAreaView,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -35,6 +36,11 @@ const RegisterScreen = ({route, navigation}) => {
     setShowPassword(prev => !prev);
   };
 
+  const errorAlert = err =>
+    Alert.alert('Error on Sign In.', `${FIREBASE_ERROR_MESSAGES[err.code]}`, [
+      {text: 'OK'},
+    ]);
+
   const handleSignUp = async () => {
     const role = isEndUser ? 'OCR:USER' : 'OCR:ADMIN';
 
@@ -49,7 +55,7 @@ const RegisterScreen = ({route, navigation}) => {
         return navigation.navigate('FillInformationForm');
       });
     } catch (err) {
-      onErrorStatus(FIREBASE_ERROR_MESSAGES[err.code] ?? err.message);
+      errorAlert(err);
     }
 
     setIsLoading(false);

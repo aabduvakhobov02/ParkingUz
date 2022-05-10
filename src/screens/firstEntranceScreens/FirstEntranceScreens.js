@@ -13,6 +13,7 @@ import EnterAddressScreen from './EnterAddressScreen';
 import RegisterScreen from './RegisterScreen';
 import SetRoleScreen from './SetRoleScreen';
 import EndUserScreens from '../endUserScreens/EndUserScreens';
+import MainScreens from '../signedInScreens/MainScreens';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,7 @@ const FirstEntranceScreens = () => {
       />
       <Stack.Screen name="EnterAddress" component={EnterAddressScreen} />
       <Stack.Screen name="EndUserScreens" component={EndUserScreens} />
+      <Stack.Screen name="MainScreens" component={MainScreens} />
     </Stack.Navigator>
   );
 };

@@ -44,6 +44,7 @@ const LanguageSelectionScreen = ({navigation}) => {
         <Text style={styles.title}>{t('Select Your Language')}</Text>
         <RadioButtonRN
           data={languageMenu}
+          initial={1}
           selectedBtn={item => handleOnLanguageMenuItemSelected(item)}
           activeColor="#E63946"
           textStyle={{fontSize: 16}}

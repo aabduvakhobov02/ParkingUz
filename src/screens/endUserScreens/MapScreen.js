@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   ImageBackground,
   Image,
+  Alert,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -44,12 +45,11 @@ const MapScreen = () => {
   const logOut = async () => {
     try {
       setHeaderModal(false);
+      await signOut();
       navigation.reset({
         index: 0,
         routes: [{name: 'LanguageSelection'}],
       });
-
-      await signOut();
     } catch (e) {
       errorAlert(e);
     }

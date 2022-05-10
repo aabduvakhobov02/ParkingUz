@@ -1,5 +1,6 @@
 import {StyleSheet, Text, View, ImageBackground} from 'react-native';
 import React, {useCallback} from 'react';
+import {useTranslation} from 'react-i18next';
 
 import Logo from '../../components/Logo';
 import StatsCard from '../../components/StatsCard';
@@ -28,6 +29,7 @@ const HomeScreen = ({navigation}) => {
     setDescription,
     setCarList,
   } = useParkingContext();
+  const {t} = useTranslation();
 
   const fetchParkingLotDetails = useCallback(
     async () => await getParkingById(parkingId),

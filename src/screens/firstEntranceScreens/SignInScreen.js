@@ -38,6 +38,12 @@ const SignInScreen = ({route, navigation}) => {
       await signInWithEmailAndPassword({
         email,
         password,
+      }).then(() => {
+        if (isEndUser) {
+          return navigation.push('EndUserScreens');
+        }
+
+        return navigation.push('MainScreens');
       });
     } catch (err) {
       errorAlert(err);
@@ -102,7 +108,7 @@ const SignInScreen = ({route, navigation}) => {
           style={styles.button}
           text={'Sign in'}
           icon={'arrow-forward-outline'}
-          onPress={handleSignIn}
+          onPress={() => handleSignIn()}
         />
       </ImageBackground>
     </SafeAreaView>
