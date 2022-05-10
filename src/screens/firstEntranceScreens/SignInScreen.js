@@ -87,7 +87,7 @@ const SignInScreen = ({route, navigation}) => {
             />
           )}
           <View style={styles.textWrapper}>
-            <Text style={styles.text}>{t('New on our platform?')}</Text>
+            <Text style={styles.text}>{t('New to our platform?')}</Text>
             <Text
               style={[styles.text, styles.link]}
               onPress={() =>
